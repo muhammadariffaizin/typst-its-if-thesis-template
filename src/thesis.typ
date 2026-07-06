@@ -2,7 +2,8 @@
 // ITS Informatics Department Thesis (Typst)
 //
 // This is your main entry point. Edit the content below and
-// customize src/config.yaml for your thesis metadata.
+// customize the configuration variables at the top of this file
+// for your thesis metadata.
 //
 // Department of Informatics
 // Faculty of Intelligent Electrical and Informatics Technology
@@ -10,9 +11,92 @@
 // Surabaya, Indonesia
 //=============================================================================
 
+//=============================================================================
+// THESIS CONFIGURATION
+// Edit the variables below to customize your thesis metadata.
+// All variables are available directly (without prefix) throughout
+// this file and are also passed to the template as named arguments.
+//=============================================================================
+
+// --- Author Information ---
+#let author = "Nama Mahasiswa"
+#let nrp = "60xxxxxxxx"
+
+// --- Supervisor Information ---
+#let supervisors = (
+  (name: "Dosen Pembimbing ke-1 (Lengkap)", shortName: "Dosen Pembimbing ke-1 (Singkat)", nip: "20xxxxxxxx"),
+  (name: "Dosen Pembimbing ke-2 (Lengkap)", shortName: "Dosen Pembimbing ke-2 (Singkat)", nip: "20xxxxxxxx"),
+)
+
+// --- Examiner Information ---
+#let examiners = (
+  (name: "Dosen Penguji ke-1 (Lengkap)", shortName: "Dosen Penguji ke-1 (Singkat)", nip: "20xxxxxxxx"),
+  (name: "Dosen Penguji ke-2 (Lengkap)", shortName: "Dosen Penguji ke-2 (Singkat)", nip: "20xxxxxxxx"),
+  (name: "Dosen Penguji ke-3 (Lengkap)", shortName: "Dosen Penguji ke-3 (Singkat)", nip: "20xxxxxxxx"),
+)
+
+// --- Head of Department ---
+#let chief = (name: "Kepala Departemen Informatika", nip: "20xxxxxxxx")
+
+// --- Dates ---
+#let dates = (
+  writing: "27 Juni 2024",
+  exam: (day: "Rabu", date: "10 Juli 2024", place: "Ruang 217B"),
+  graduationPeriod: "September 2024",
+)
+
+// --- Academic Program ---
+#let program = (
+  type: "Program Magister",
+  title: "Magister Komputer (M.Kom.)",
+  concentration: "Teknik Informatika",
+  courseClass: "Teknologi Jaringan dan Keamanan Siber Cerdas",
+  courseClassShort: "NETICS",
+  degree: "S2",
+  department: "Departemen Teknik Informatika",
+  faculty: "Fakultas Teknologi Elektro dan Informatika Cerdas",
+  university: "Institut Teknologi Sepuluh Nopember",
+  city: "Surabaya",
+  year: 2026,
+)
+
+// --- Essay Code ---
+#let essay = "IF185301 TESIS"
+
+// --- Thesis Titles ---
+#let title = (
+  id: "TESIS MAHASISWA DEPARTEMEN TEKNIK INFORMATIKA INSTITUT TEKNOLOGI SEPULUH NOPEMBER (DALAM BAHASA INDONESIA)",
+  en: "POSTGRADUATE STUDENT THESIS OF INFORMATICS DEPARTMENT OF SEPULUH NOPEMBER INSTITUTE OF TECHNOLOGY (IN ENGLISH)",
+)
+
+// --- Resource Paths (relative to src/) ---
+#let paths = (
+  logo: "resources/its-logo.png",
+  coverBackground: "resources/its-thesis-cover-without-logo.png",
+  validationBackground: "resources/its-thesis-validation.png",
+  bibliography: "bibliography.bib",
+)
+
+//=============================================================================
+// TEMPLATE SETUP
+// Each config variable is passed directly as a named argument to the
+// template — no `cfg` wrapper needed. Use them directly in your content.
+//=============================================================================
+
 #import "template.typ": thesis
 
-#show: thesis.with(cfg: yaml("config.yaml"))
+#show: thesis.with(
+  author: author,
+  nrp: nrp,
+  supervisors: supervisors,
+  examiners: examiners,
+  chief: chief,
+  dates: dates,
+  program: program,
+  essay: essay,
+  title: title,
+  paths: paths,
+)
 
 //=============================================================================
 // 1. DEDICATION
@@ -82,14 +166,13 @@ ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
 // For abstracts, we can leave paragraphs without indent or use #par.leading
 
 #align(center, text(size: 12pt, weight: "bold")[
-  TESIS MAHASISWA DEPARTEMEN TEKNIK INFORMATIKA INSTITUT TEKNOLOGI \
-  SEPULUH NOPEMBER (DALAM BAHASA INDONESIA)
+  #title.id
 ])
 
 #v(1em)
-Nama Mahasiswa / NRP ... \
-Pembimbing 1: ... \
-Pembimbing 2: ...
+#author / #nrp \
+Pembimbing 1: #supervisors.at(0).name \
+Pembimbing 2: #supervisors.at(1).name
 
 #v(2em)
 #align(center, text(size: 13pt, weight: "bold")[#upper("ABSTRAK")])
@@ -107,14 +190,13 @@ Tulis abstrak bahasa Indonesia di sini.
 //=============================================================================
 
 #align(center, text(size: 12pt, weight: "bold")[
-  POSTGRADUATE STUDENT THESIS OF INFORMATICS DEPARTMENT \
-  OF SEPULUH NOPEMBER INSTITUTE OF TECHNOLOGY (IN ENGLISH)
+  #title.en
 ])
 
 #v(1em)
-Student Name / NRP ... \
-Supervisor 1: ... \
-Supervisor 2: ...
+#author / #nrp \
+Supervisor 1: #supervisors.at(0).name \
+Supervisor 2: #supervisors.at(1).name
 
 #v(2em)
 #align(center, text(size: 13pt, weight: "bold")[#upper("ABSTRACT")])
@@ -161,166 +243,18 @@ Write your English abstract here.
 
 #pagebreak()
 
-//=============================================================================
-// MAIN CHAPTERS  (resume arabic page numbering)
-//=============================================================================
-
-#counter("page").update(1)
-#set page(numbering: "1")
-
-// ---------------------------------------------------------------------------
-// CHAPTER 1 — PENDAHULUAN
-// ---------------------------------------------------------------------------
-
-= PENDAHULUAN
-
-Pada bab ini dijelaskan mengenai beberapa hal dasar dalam penelitian dan
-penulisan laporan tesis.
-
-== Latar Belakang
-
-Pada bagian ini, penulis menjelaskan latar belakang penelitian yang dilakukan.
-
-== Rumusan Masalah
-
-Berdasarkan latar belakang di atas, maka rumusan masalah yang akan dibahas
-di dalam penelitian ini adalah sebagai berikut:
-
-+ Pertanyaan ke-1 ?
-+ Pertanyaan ke-2 ?
-+ Pertanyaan ke-3 ?
-
-== Tujuan Penelitian
-
-Tujuan dari penelitian ini adalah ...
-
-== Batasan Penelitian
-
-Untuk memfokuskan permasalahan di dalam penelitian ini, terdapat beberapa
-batasan masalah yang digunakan:
-
-+ Batasan Penelitian ke-1.
-+ Batasan Penelitian ke-2.
-
-== Manfaat Penelitian
-
-Manfaat yang diharapkan dari penelitian ini adalah ...
-
-== Kontribusi Penelitian
-
-+ Kontribusi Penelitian ke-1.
-+ Kontribusi Penelitian ke-2.
-
-// ---------------------------------------------------------------------------
-// CHAPTER 2 — TINJAUAN PUSTAKA
-// ---------------------------------------------------------------------------
-
-= TINJAUAN PUSTAKA
-
-Pada bab ini dijelaskan mengenai teori-teori yang mendasari penelitian ini.
-
-== Teori Dasar
-
-Penjelasan mengenai teori dasar yang digunakan dalam penelitian.
-
-== Penelitian Terkait
-
-#figure(
-  image("resources/chapter-2-power-digital-finance.png", width: 80%),
-  caption: [Gambar yang menunjukkan ilustrasi terkait penelitian],
-)
-
-// ---------------------------------------------------------------------------
-// CHAPTER 3 — METODOLOGI PENELITIAN
-// ---------------------------------------------------------------------------
-
-= METODOLOGI PENELITIAN
-
-Pada bab ini dijelaskan mengenai metodologi penelitian yang digunakan.
-
-== Tahapan Penelitian
-
-1. Tahap pertama ...
-2. Tahap kedua ...
-3. Tahap ketiga ...
-
-== Alat dan Bahan
-
-=== Perangkat Keras
-
-+ Prosesor: ...
-+ Memori: ...
-
-=== Perangkat Lunak
-
-+ Sistem Operasi: ...
-+ Framework: ...
-
-== Metode yang Diusulkan
-
-#figure(
-  table(
-    columns: (auto, auto, auto),
-    [No.], [Parameter], [Nilai],
-    [1], [Parameter A], [Nilai A],
-    [2], [Parameter B], [Nilai B],
-    [3], [Parameter C], [Nilai C],
-  ),
-  caption: [Tabel contoh parameter penelitian],
-)
-
-// ---------------------------------------------------------------------------
-// CHAPTER 4 — HASIL DAN PEMBAHASAN
-// ---------------------------------------------------------------------------
-
-= HASIL DAN PEMBAHASAN
-
-Pada bab ini dijelaskan mengenai hasil yang diperoleh dari penelitian.
-
-== Hasil Penelitian
-
-=== Hasil Pengujian Skenario 1
-
-Penjelasan hasil pengujian skenario pertama.
-
-=== Hasil Pengujian Skenario 2
-
-Penjelasan hasil pengujian skenario kedua.
-
-```python
-def contoh_fungsi(x):
-    return x * 2
-```
-
-// ---------------------------------------------------------------------------
-// CHAPTER 5 — PENUTUP
-// ---------------------------------------------------------------------------
-
-= PENUTUP
-
-Pada bab ini dijelaskan mengenai kesimpulan dari penelitian.
-
-== Kesimpulan
-
-+ Kesimpulan pertama ...
-+ Kesimpulan kedua ...
-+ Kesimpulan ketiga ...
-
-== Saran
-
-+ Saran pertama ...
-+ Saran kedua ...
-
-#pagebreak()
+#include "content.typ"
 
 //=============================================================================
 // BIBLIOGRAPHY
 //=============================================================================
 
 #set heading(numbering: none)
+
+= DAFTAR PUSTAKA
 #bibliography(
   "bibliography.bib",
-  title: [#align(center, text(size: 14pt, weight: "bold")[#upper("DAFTAR PUSTAKA")])],
+  title: none,
   style: "apa",
   full: true,
 )
@@ -330,8 +264,6 @@ Pada bab ini dijelaskan mengenai kesimpulan dari penelitian.
 //=============================================================================
 // APPENDICES
 //=============================================================================
-
-#set heading(numbering: "A.")
 
 = Lampiran A. Instrumen Pengujian
 

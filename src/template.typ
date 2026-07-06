@@ -4,8 +4,11 @@
 //
 // Usage:
 //   #import "template.typ": thesis
-//   #show: thesis.with(cfg: yaml("config.yaml"))
+//   #show: thesis.with(author: author, nrp: nrp, ...)
 //   ... your content here ...
+//
+// All config variables are passed directly as named arguments
+// (no `cfg` wrapper). Use them directly without any prefix.
 //
 // All formatting (page geometry, fonts, heading styles, cover pages,
 // approval pages, numbering) is handled by this template. You only
@@ -21,7 +24,7 @@
 // CONSTANTS
 //=============================================================================
 
-#let heading-font = ("Liberation Sans", "Arial", "Helvetica")
+#let heading-font = ("Trebuchet MS", "Arial", "Helvetica")
 #let body-font = "Times New Roman"
 
 #let standard-margin = (
@@ -43,12 +46,11 @@
 // COVER PAGE 1  (blue background)
 //=============================================================================
 
-#let render-cover-1(cfg) = {
+#let render-cover-1(author, nrp, essay, title, paths, supervisors, program) = {
   set page(numbering: none, margin: 0cm)
-  pagebreak()
   set page(
     background: image(
-      cfg.paths.coverBackground,
+      paths.coverBackground,
       width: 100%,
       height: 100%,
     ),
@@ -56,42 +58,42 @@
   set text(fill: white, font: heading-font, fallback: true)
 
   place(left + top, dx: 3cm, dy: 1.5cm)[
-    #image(cfg.paths.logo, width: 3.5cm)
+    #image(paths.logo, width: 3.5cm)
   ]
 
-  place(left + top, dx: 3cm, dy: 7cm)[
+  place(left + top, dx: 3cm, dy: 8cm)[
     #set text(size: 16pt, weight: "bold")
-    #upper(cfg.essay)
+    #upper(essay)
   ]
 
-  place(left + top, dx: 3cm, dy: 9cm)[
+  place(left + top, dx: 3cm, dy: 10cm)[
     #set text(size: 22pt, weight: "bold")
-    #upper(cfg.title.id)
+    #upper(title.id)
   ]
 
-  place(left + top, dx: 3cm, dy: 14cm)[
+  place(left + top, dx: 3cm, dy: 15cm)[
     #set text(size: 14pt, weight: "bold")
-    #upper(cfg.author) \
-    #upper(cfg.nrp)
+    #upper(author) \
+    #upper(nrp)
   ]
 
-  place(left + top, dx: 3cm, dy: 17cm)[
+  place(left + top, dx: 3cm, dy: 18cm)[
     #set text(size: 12pt, weight: "bold")
-    Dosen Pembimbing: \
-    #cfg.supervisors.at(0).name \
-    #cfg.supervisors.at(1).name
+    DOSEN PEMBIMBING \
+    #supervisors.at(0).name \
+    #supervisors.at(1).name
   ]
 
   place(left + top, dx: 3cm, dy: 21cm)[
     #set text(size: 11pt, weight: "bold")
-    #upper(cfg.program.type) \
-    Bidang Keahlian #upper(cfg.program.courseClass) (#cfg.program.courseClassShort) \
-    Program Studi #cfg.program.degree #cfg.program.concentration \
-    #cfg.program.department \
-    #cfg.program.faculty \
-    #cfg.program.university \
-    #cfg.program.city \
-    #str(cfg.program.year)
+    #upper(program.type) \
+    BIDANG KEAHLIAN #upper(program.courseClass) (#program.courseClassShort) \
+    PROGRAM STUDI #upper(program.degree) #upper(program.concentration) \
+    #upper(program.department) \
+    #upper(program.faculty) \
+    #upper(program.university) \
+    #upper(program.city) \
+    #str(program.year)
   ]
 }
 
@@ -99,39 +101,39 @@
 // COVER PAGE 2  (no background)
 //=============================================================================
 
-#let render-cover-2(cfg) = {
+#let render-cover-2(author, nrp, essay, title, paths, supervisors, program) = {
   set page(margin: (top: 1.5cm, bottom: 3cm, left: 3cm, right: 3cm))
   set text(font: heading-font, fallback: true, weight: "bold")
 
-  image(cfg.paths.logo, width: 3.5cm)
+  image(paths.logo, width: 3.5cm)
 
   v(3cm)
   set text(size: 16pt)
-  upper(cfg.essay)
+  upper(essay)
 
   v(0.9cm)
   set text(size: 22pt)
-  upper(cfg.title.id)
+  upper(title.id)
 
   v(0.9cm)
   set text(size: 14pt)
-  [#upper(cfg.author) \ #upper(cfg.nrp)]
+  [#upper(author) \ #upper(nrp)]
 
   v(0.9cm)
   set text(size: 12pt)
-  [Dosen Pembimbing: \ #cfg.supervisors.at(0).name \ #cfg.supervisors.at(1).name]
+  [DOSEN PEMBIMBING \ #supervisors.at(0).name \ #supervisors.at(1).name]
 
   v(0.9cm)
   set text(size: 11pt)
   [
-    #upper(cfg.program.type) \
-    Bidang Keahlian #upper(cfg.program.courseClass) (#cfg.program.courseClassShort) \
-    Program Studi #cfg.program.degree #cfg.program.concentration \
-    #cfg.program.department \
-    #cfg.program.faculty \
-    #cfg.program.university \
-    #cfg.program.city \
-    #str(cfg.program.year)
+    #upper(program.type) \
+    BIDANG KEAHLIAN #upper(program.courseClass) (#program.courseClassShort) \
+    PROGRAM STUDI #upper(program.degree) #upper(program.concentration) \
+    #upper(program.department) \
+    #upper(program.faculty) \
+    #upper(program.university) \
+    #upper(program.city) \
+    #str(program.year)
   ]
 }
 
@@ -139,7 +141,7 @@
 // PROPOSAL APPROVAL
 //=============================================================================
 
-#let render-proposal-approval(cfg) = {
+#let render-proposal-approval(title, author, nrp, dates, examiners, supervisors) = {
   set page(
     margin: (
       top: 3.5cm,
@@ -158,16 +160,16 @@
 
   v(1em)
 
-  [Judul: #cfg.title.id]
-  [Mahasiswa: #cfg.author]
-  [NRP: #cfg.nrp]
+  [Judul: #title.id]
+  [Mahasiswa: #author]
+  [NRP: #nrp]
 
   v(1.5em)
   [Telah diseminarkan pada,]
 
-  [Hari: #cfg.dates.exam.day]
-  [Tanggal: #cfg.dates.exam.date]
-  [Tempat: #cfg.dates.exam.place]
+  [Hari: #dates.exam.day]
+  [Tanggal: #dates.exam.date]
+  [Tempat: #dates.exam.place]
 
   v(1.5em)
   [Mengetahui/Menyetujui,]
@@ -184,17 +186,17 @@
     align: left,
     penguji-label,
     pembimbing-label,
-    [1. #cfg.examiners.at(0).name],
-    [1. #cfg.supervisors.at(0).name],
-    [NIP: #cfg.examiners.at(0).nip],
-    [NIP: #cfg.supervisors.at(0).nip],
-    [2. #cfg.examiners.at(1).name],
-    [2. #cfg.supervisors.at(1).name],
-    [NIP: #cfg.examiners.at(1).nip],
-    [NIP: #cfg.supervisors.at(1).nip],
-    [3. #cfg.examiners.at(2).name],
+    [1. #examiners.at(0).name],
+    [1. #supervisors.at(0).name],
+    [NIP: #examiners.at(0).nip],
+    [NIP: #supervisors.at(0).nip],
+    [2. #examiners.at(1).name],
+    [2. #supervisors.at(1).name],
+    [NIP: #examiners.at(1).nip],
+    [NIP: #supervisors.at(1).nip],
+    [3. #examiners.at(2).name],
     [],
-    [NIP: #cfg.examiners.at(2).nip],
+    [NIP: #examiners.at(2).nip],
     [],
   )
 }
@@ -203,11 +205,11 @@
 // THESIS APPROVAL
 //=============================================================================
 
-#let render-thesis-approval(cfg) = {
+#let render-thesis-approval(paths, program, author, nrp, dates, supervisors, examiners, chief) = {
   set page(margin: standard-margin)
   set page(
     background: image(
-      cfg.paths.validationBackground,
+      paths.validationBackground,
       width: 100%,
       height: 100%,
     ),
@@ -221,18 +223,18 @@
     #v(2em)
     #set text(weight: "bold")
     Tesis disusun untuk memenuhi salah satu syarat memperoleh gelar \
-    #cfg.program.title \
+    #program.title \
     di \
-    #cfg.program.university
+    #program.university
 
     #v(1em)
     Oleh: \
-    #cfg.author \
-    NRP: #cfg.nrp
+    #author \
+    NRP: #nrp
 
     #v(1em)
-    Tanggal Ujian: #cfg.dates.exam.date \
-    Periode Wisuda: #cfg.dates.graduationPeriod
+    Tanggal Ujian: #dates.exam.date \
+    Periode Wisuda: #dates.graduationPeriod
 
     #v(1em)
     Disetujui oleh:
@@ -246,25 +248,25 @@
     gutter: 5pt,
     align: left,
     bpemb, [],
-    [1.], [#cfg.supervisors.at(0).name \ NIP: #cfg.supervisors.at(0).nip],
-    [2.], [#cfg.supervisors.at(1).name \ NIP: #cfg.supervisors.at(1).nip],
+    [1.], [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip],
+    [2.], [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip],
     [], [],
     bpeng, [],
-    [1.], [#cfg.examiners.at(0).name \ NIP: #cfg.examiners.at(0).nip],
-    [2.], [#cfg.examiners.at(1).name \ NIP: #cfg.examiners.at(1).nip],
-    [3.], [#cfg.examiners.at(2).name \ NIP: #cfg.examiners.at(2).nip],
+    [1.], [#examiners.at(0).name \ NIP: #examiners.at(0).nip],
+    [2.], [#examiners.at(1).name \ NIP: #examiners.at(1).nip],
+    [3.], [#examiners.at(2).name \ NIP: #examiners.at(2).nip],
   )
 
   v(2.5em)
 
   align(center)[
-    Kepala #cfg.program.department \
-    #cfg.program.faculty \
+    Kepala #program.department \
+    #program.faculty \
     \
     \
     \
-    #underline(cfg.chief.name) \
-    NIP: #cfg.chief.nip
+    #underline(chief.name) \
+    NIP: #chief.nip
   ]
 }
 
@@ -272,7 +274,7 @@
 // ORIGINALITY STATEMENT
 //=============================================================================
 
-#let render-originality(cfg) = {
+#let render-originality(author, nrp, supervisors, program, title, dates) = {
   set page(margin: (
     top: 3.5cm,
     bottom: 3.0cm,
@@ -290,18 +292,18 @@
 
   v(0.5em)
   [
-    Nama               : #cfg.author (#cfg.nrp) \
-    Dosen Pembimbing 1 : #cfg.supervisors.at(0).name (#cfg.supervisors.at(0).nip) \
-    Dosen Pembimbing 2 : #cfg.supervisors.at(1).name (#cfg.supervisors.at(1).nip) \
-    Program Studi      : #cfg.program.degree #cfg.program.concentration \
-    Departemen         : #cfg.program.department \
-    Fakultas           : #cfg.program.faculty
+    Nama               : #author (#nrp) \
+    Dosen Pembimbing 1 : #supervisors.at(0).name (#supervisors.at(0).nip) \
+    Dosen Pembimbing 2 : #supervisors.at(1).name (#supervisors.at(1).nip) \
+    Program Studi      : #program.degree #program.concentration \
+    Departemen         : #program.department \
+    Fakultas           : #program.faculty
   ]
 
   v(0.5em)
   [
     Dengan ini menyatakan bahwa Tesis yang berjudul
-    "#cfg.title.id" adalah hasil karya sendiri, bersifat orisinil,
+    "#title.id" adalah hasil karya sendiri, bersifat orisinil,
     dan ditulis dengan mengikuti kaidah penulisan ilmiah.
   ]
 
@@ -309,18 +311,18 @@
   [
     Apabila di kemudian hari ditemukan ketidaksesuaian dengan
     pernyataan ini, maka saya bersedia menerima sanksi sesuai
-    dengan ketentuan yang berlaku di #cfg.program.university (ITS).
+    dengan ketentuan yang berlaku di #program.university (ITS).
   ]
 
   v(2em)
 
   align(right)[
-    #cfg.program.city, #cfg.dates.writing \
+    #program.city, #dates.writing \
     Mahasiswa \
     \
     \
-    #cfg.author \
-    NRP: #cfg.nrp
+    #author \
+    NRP: #nrp
   ]
 
   v(1em)
@@ -331,8 +333,8 @@
     columns: (1fr, 1fr),
     gutter: 3cm,
     align: center,
-    [#cfg.supervisors.at(0).shortName \ NIP: #cfg.supervisors.at(0).nip],
-    [#cfg.supervisors.at(1).shortName \ NIP: #cfg.supervisors.at(1).nip],
+    [#supervisors.at(0).shortName \ NIP: #supervisors.at(0).nip],
+    [#supervisors.at(1).shortName \ NIP: #supervisors.at(1).nip],
     [Dosen Pembimbing 1],
     [Dosen Pembimbing 2],
   )
@@ -340,7 +342,7 @@
 
 //=============================================================================
 // MAIN TEMPLATE FUNCTION
-// Applied via:  #show: thesis.with(cfg: yaml("config.yaml"))
+// Applied via:  #show: thesis.with(author: author, nrp: nrp, ...)
 //
 // This function:
 //   1. Applies document-wide styling (page, text, par, headings).
@@ -349,7 +351,19 @@
 //   4. Calls `doc` — the user's thesis content.
 //=============================================================================
 
-#let thesis(cfg: none, doc) = {
+#let thesis(
+  author: none,
+  nrp: none,
+  supervisors: none,
+  examiners: none,
+  chief: none,
+  dates: none,
+  program: none,
+  essay: none,
+  title: none,
+  paths: none,
+  doc,
+) = {
   // ---- 1. Document-wide defaults ----
   set page(paper: "a4", margin: standard-margin)
   set text(font: body-font, size: 12pt)
@@ -382,7 +396,7 @@
   show figure.caption: set text(size: 10pt)
 
   // ---- 4. COVER PAGE 1 (with background) ----
-  render-cover-1(cfg)
+  render-cover-1(author, nrp, essay, title, paths, supervisors, program)
   pagebreak()
 
   // ---- 5. BLANK PAGE ----
@@ -391,22 +405,22 @@
   pagebreak()
 
   // ---- 6. COVER PAGE 2 (no background) ----
-  render-cover-2(cfg)
+  render-cover-2(author, nrp, essay, title, paths, supervisors, program)
   pagebreak()
 
   // ---- 7. PROPOSAL APPROVAL ----
-  render-proposal-approval(cfg)
+  render-proposal-approval(title, author, nrp, dates, examiners, supervisors)
   pagebreak()
 
   // ---- 8. THESIS APPROVAL ----
-  render-thesis-approval(cfg)
+  render-thesis-approval(paths, program, author, nrp, dates, supervisors, examiners, chief)
   pagebreak()
 
   // Remove validation background after thesis-approval page
   set page(background: none)
 
   // ---- 9. ORIGINALITY STATEMENT ----
-  render-originality(cfg)
+  render-originality(author, nrp, supervisors, program, title, dates)
   pagebreak()
 
   // ---- 10. Reset to standard settings ----
