@@ -64,22 +64,18 @@
       height: 100%,
     ),
   )
-  set text(font: heading-font, fallback: true)
+  set text(fill: white, font: heading-font, fallback: true)
 
-  place(left + top, dx: 3cm, dy: 1.5cm)[
-    #image(paths.logo, width: 3.5cm)
+  place(left + top, dx: 3cm, dy: 6cm)[
+    #set text(size: 16pt, weight: "bold")
+    #upper(essay.id)
   ]
 
   place(left + top, dx: 3cm, dy: 8cm)[
-    #set text(size: 16pt, weight: "bold")
-    #upper(essay)
-  ]
-
-  place(left + top, dx: 3cm, dy: 10cm)[
     #set text(size: 22pt, weight: "bold")
     #block(width: 15cm)[
       #set text(hyphenate: false)
-      #title.id
+      #upper(title.id)
     ]
   ]
 
@@ -91,20 +87,18 @@
 
   place(left + top, dx: 3cm, dy: 18cm)[
     #set text(size: 12pt, weight: "bold")
-    DOSEN PEMBIMBING \
+    Dosen Pembimbing \
     #supervisors.at(0).name \
     #supervisors.at(1).name
   ]
 
   place(left + top, dx: 3cm, dy: 21cm)[
     #set text(size: 11pt, weight: "bold")
-    #upper(program.type) \
-    BIDANG KEAHLIAN #upper(program.courseClass) (#program.courseClassShort) \
-    PROGRAM STUDI #upper(program.degree) #upper(program.concentration) \
-    #upper(program.department) \
-    #upper(program.faculty) \
-    #upper(program.university) \
-    #upper(program.city) \
+    Program Studi #program.concentration\
+    #program.department \
+    #program.faculty \
+    #program.university \
+    #program.city \
     #str(program.year)
   ]
 }
@@ -124,45 +118,91 @@
   )
   set text(font: heading-font, fallback: true)
 
-  place(left + top, dx: 3cm, dy: 3.5cm)[
-    #image(paths.logo, width: 3.5cm)
-  ]
-
-  place(left + top, dx: 3cm, dy: 10cm)[
+  place(left + top, dx: 3cm, dy: 7cm)[
     #set text(size: 16pt, weight: "bold")
-    #upper(essay)
+    #upper(essay.en)
   ]
 
-  place(left + top, dx: 3cm, dy: 12cm)[
+  place(left + top, dx: 3cm, dy: 9cm)[
     #set text(size: 22pt, weight: "bold")
     #block(width: 15cm)[
       #set text(hyphenate: false)
-      #title.id
+      #upper(title.id)
     ]
   ]
 
-  place(left + top, dx: 3cm, dy: 17cm)[
+  place(left + top, dx: 3cm, dy: 15cm)[
     #set text(size: 14pt, weight: "bold")
     #upper(author) \
     #upper(nrp)
   ]
   
-  place(left + top, dx: 3cm, dy: 20cm)[
+  place(left + top, dx: 3cm, dy: 18cm)[
     #set text(size: 12pt)
-    DOSEN PEMBIMBING \
+    Dosen Pembimbing \
     #supervisors.at(0).name \
     #supervisors.at(1).name
   ]
 
   place(left + top, dx: 3cm, dy: 22.5cm)[
     #set text(size: 11pt)
-    #upper(program.type) \
-    BIDANG KEAHLIAN #upper(program.courseClass) (#program.courseClassShort) \
-    PROGRAM STUDI #upper(program.degree) #upper(program.concentration) \
-    #upper(program.department) \
-    #upper(program.faculty) \
-    #upper(program.university) \
-    #upper(program.city) \
+    Program Studi #program.concentration \
+    #program.department \
+    #program.faculty \
+    #program.university \
+    #program.city \
+    #str(program.year)
+  ]
+}
+
+//=============================================================================
+// COVER PAGE 3 - EN  (no background)
+//=============================================================================
+
+#let render-cover-3(author, nrp, essay, title, paths, supervisors, program) = {
+  set page(numbering: none, margin: 0cm)
+  set page(
+    background: image(
+      paths.coverBackgroundSecondary,
+      width: 100%,
+      height: 100%,
+    ),
+  )
+  set text(font: heading-font, fallback: true)
+
+  place(left + top, dx: 3cm, dy: 7cm)[
+    #set text(size: 16pt, weight: "bold")
+    #upper(essay.en)
+  ]
+
+  place(left + top, dx: 3cm, dy: 9cm)[
+    #set text(size: 22pt, weight: "bold")
+    #block(width: 15cm)[
+      #set text(hyphenate: false)
+      #upper(title.en)
+    ]
+  ]
+
+  place(left + top, dx: 3cm, dy: 15cm)[
+    #set text(size: 14pt, weight: "bold")
+    #upper(author) \
+    #upper(nrp)
+  ]
+  
+  place(left + top, dx: 3cm, dy: 18cm)[
+    #set text(size: 12pt)
+    Advisor \
+    #supervisors.at(0).name \
+    #supervisors.at(1).name
+  ]
+
+  place(left + top, dx: 3cm, dy: 22.5cm)[
+    #set text(size: 11pt)
+    Study Program #program.concentration \
+    #program.department \
+    #program.faculty \
+    #program.university \
+    #program.city \
     #str(program.year)
   ]
 }
@@ -176,7 +216,7 @@
 
   align(center, text(size: 14pt, weight: "bold")[
     #upper("LEMBAR PENGESAHAN") \
-    #upper("PROPOSAL TESIS")
+    #upper("PROPOSAL TUGAS AKHIR")
   ])
 
   align(left, text(size: 12pt)[
@@ -234,66 +274,51 @@
 // THESIS APPROVAL
 //=============================================================================
 
-#let render-thesis-approval(paths, program, author, nrp, sign, dates, supervisors, examiners, chief) = {
+#let render-thesis-approval(title, program, author, nrp, sign, dates, supervisors, examiners, chief) = {
   set page(margin: standard-margin)
-  set page(
-    background: image(
-      paths.validationBackground,
-      width: 100%,
-      height: 100%,
-    ),
-  )
 
   align(center)[
-    #set text(size: 14pt, weight: "bold")
-    #set par(leading: 0.6em)
-    #upper("Lembar Pengesahan Tesis")
+    #set text(size: 14pt)
+    #set par(leading: 1em)
+    #text(upper("Lembar Pengesahan"), weight: "bold") \
 
     #v(1em)
-    #set text(weight: "bold")
-    Tesis disusun untuk memenuhi salah satu syarat memperoleh gelar \
-    #program.title \
-    di \
+    #text(upper(title.id), weight: "bold") \
+    \
+    #text(upper("TUGAS AKHIR"), weight: "bold") \
+    Diajukan untuk memenuhi salah satu syarat \
+    memperoleh gelar #program.title \
+    pada Program Studi #program.degree #program.concentration \
+    #program.department \
+    #program.faculty \
     #program.university
-
     #v(1em)
-    Oleh: \
-    #author \
+    Oleh: #text(upper(author), weight: "bold") \
     NRP: #nrp
 
     #v(1em)
-    Tanggal Ujian: #dates.exam.date \
-    Periode Wisuda: #dates.graduationPeriod
-
+    Disetujui oleh Tim Penguji Tugas Akhir:
     #v(1em)
-    Disetujui oleh:
   ]
 
-  set text(weight: "bold")
   set par(leading: 0.6em)
   grid(
     columns: (auto, 2fr, 1fr),
-    gutter: 8pt,
+    gutter: 3em,
     align: left,
-    [1.], [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip \ (Pembimbing 1)], [#image(supervisors.at(0).sign, width: 3cm)],
-    [2.], [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip \ (Pembimbing 2)], [#image(supervisors.at(1).sign, width: 3cm)],
-    [3.], [#examiners.at(0).name \ NIP: #examiners.at(0).nip \ (Penguji 1)], [#image(examiners.at(0).sign, width: 3cm)],
-    [4.], [#examiners.at(1).name \ NIP: #examiners.at(1).nip \ (Penguji 2)], [#image(examiners.at(1).sign, width: 3cm)],
-    [5.], [#examiners.at(2).name \ NIP: #examiners.at(2).nip \ (Penguji 3)], [#image(examiners.at(2).sign, width: 3cm)],
+    [1.], [#supervisors.at(0).name], [Pembimbing 1],
+    [2.], [#supervisors.at(1).name], [Pembimbing 2],
+    [3.], [#examiners.at(0).name], [Penguji 1],
+    [4.], [#examiners.at(1).name], [Penguji 2],
+    [5.], [#examiners.at(2).name], [Penguji 3],
   )
 
   v(1.5em)
 
-  align(left)[
-    Kepala #program.department \
-    #v(0.3em)
-    #box(
-      [#set align(center)
-      #image(chief.sign, width: 3cm)]
-    ) \
-    #v(0.3em)
-    #underline(chief.name) \
-    NIP: #chief.nip
+  align(center)[
+    #set text(weight: "bold")
+    #upper(program.city) \
+    #dates.writingPeriod
   ]
 }
 
@@ -311,7 +336,7 @@
   set text(size: 11pt)
 
   align(center, text(size: 13pt, weight: "bold")[
-    #upper("PERNYATAAN ORISINALITAS TESIS")
+    #upper("PERNYATAAN ORISINALITAS")
   ])
 
   v(1.5em)
@@ -320,16 +345,14 @@
   v(0.5em)
   [
     Nama Mahasiswa (NRP) #tab-to(4.5cm, [Nama Mahasiswa (NRP)]): #author (#nrp) \
+    Program Studi #tab-to(4.5cm, [Program Studi]): #program.concentration \
     Dosen Pembimbing 1 (NIP) #tab-to(4.5cm, [Dosen Pembimbing 1 (NIP)]): #supervisors.at(0).name (#supervisors.at(0).nip) \
     Dosen Pembimbing 2 (NIP) #tab-to(4.5cm, [Dosen Pembimbing 2 (NIP)]): #supervisors.at(1).name (#supervisors.at(1).nip) \
-    Program Studi #tab-to(4.5cm, [Program Studi]): #program.degree #program.concentration \
-    Departemen #tab-to(4.5cm, [Departemen]): #program.department \
-    Fakultas #tab-to(4.5cm, [Fakultas]): #program.faculty
   ]
 
   v(0.5em)
   [
-    Dengan ini menyatakan bahwa Tesis yang berjudul
+    Dengan ini menyatakan bahwa Tugas Akhir yang berjudul
     "#title.id" adalah hasil karya sendiri, bersifat orisinil,
     dan ditulis dengan mengikuti kaidah penulisan ilmiah.
   ]
@@ -343,10 +366,10 @@
 
   v(2em)
 
-  align(right)[
+  align(center)[
     #block()[
       #set text(size: 12pt)
-      #set align(left)
+      #set align(center)
       #set par(leading: 0.6em)
       #program.city, #dates.writing \
       #image(sign, width: 3cm)
@@ -363,11 +386,11 @@
     columns: (1fr, 1fr),
     gutter: 1cm,
     align: center,
-    [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip],
-    [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip],
+    [#supervisors.at(0).name],
+    [#supervisors.at(1).name],
     [#image(supervisors.at(0).sign, width: 3cm)], [#image(supervisors.at(1).sign, width: 3cm)],
-    [Dosen Pembimbing 1],
-    [Dosen Pembimbing 2],
+    [Dosen Pembimbing 1 \ NIP: #supervisors.at(0).nip],
+    [Dosen Pembimbing 2 \ NIP: #supervisors.at(1).nip],
   )
 }
 
@@ -391,6 +414,7 @@
   chief: none,
   dates: none,
   program: none,
+  program-en: none,
   essay: none,
   title: none,
   paths: none,
@@ -452,6 +476,10 @@
   render-cover-2(author, nrp, essay, title, paths, supervisors, program)
   pagebreak()
 
+  // ---- 6. COVER PAGE 3 - EN (no background) ----
+  render-cover-3(author, nrp, essay, title, paths, supervisors, program-en)
+  pagebreak()
+
   // ---- 5. BLANK PAGE ----
   set page(margin: standard-margin, background: none, numbering: none)
   set text(fill: black, font: body-font)
@@ -463,7 +491,7 @@
     pagebreak()
   } else {
     // ---- 8. THESIS APPROVAL ----
-    render-thesis-approval(paths, program, author, nrp, sign, dates, supervisors, examiners, chief)
+    render-thesis-approval(title, program, author, nrp, sign, dates, supervisors, examiners, chief)
     pagebreak()
 
     // ---- 9. ORIGINALITY STATEMENT ----

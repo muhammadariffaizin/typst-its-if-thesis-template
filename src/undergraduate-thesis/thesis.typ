@@ -43,17 +43,14 @@
 #let dates = (
   writing: "27 Juni 2024",
   exam: (day: "Rabu", date: "10 Juli 2024", place: "Ruang 217B"),
-  graduationPeriod: "September 2024",
+  writingPeriod: "September 2024",
 )
 
 // --- Academic Program ---
 #let program = (
-  type: "Program Magister",
-  title: "Magister Komputer (M.Kom.)",
+  title: "Sarjana Komputer (S.Kom.)",
+  degree: "S1",
   concentration: "Teknik Informatika",
-  courseClass: "Teknologi Jaringan dan Keamanan Siber Cerdas",
-  courseClassShort: "NETICS",
-  degree: "S2",
   department: "Departemen Teknik Informatika",
   faculty: "Fakultas Teknologi Elektro dan Informatika Cerdas",
   university: "Institut Teknologi Sepuluh Nopember",
@@ -61,13 +58,28 @@
   year: 2026,
 )
 
+// --- Academic Program (English) ---
+#let program-en = (
+  title: "Bachelor of Computer Science (B.Comp.Sc.)",
+  degree: "S1",
+  concentration: "Informatics Engineering",
+  department: "Department of Informatics Engineering",
+  faculty: "Faculty of Intelligent Electrical and Informatics Technology",
+  university: "Sepuluh Nopember Institute of Technology",
+  city: "Surabaya",
+  year: 2026,
+)
+
 // --- Essay Code ---
-#let essay = "Tesis Sidang Akhir - EF235401"
+#let essay = (
+  id: "Tugas Akhir - EF234801",
+  en: "Final Project - EF234801"
+)
 
 // --- Thesis Titles ---
 #let title = (
-  id: "Tesis Mahasiswa Departemen Teknik Informatika Institut Teknologi Sepuluh Nopember (dalam Bahasa Indonesia)",
-  en: "Master Student Thesis of the Department of Informatics, Institut Teknologi Sepuluh Nopember (in English)",
+  id: "Tugas Akhir Mahasiswa Departemen Teknik Informatika Institut Teknologi Sepuluh Nopember (dalam Bahasa Indonesia)",
+  en: "Undergraduate Student Thesis of the Department of Informatics, Institut Teknologi Sepuluh Nopember (in English)",
 )
 
 // --- Resource Paths (relative to src/) ---
@@ -75,7 +87,6 @@
   logo: "resources/its-logo.png",
   coverBackground: "resources/its-thesis-cover-without-logo.svg",
   coverBackgroundSecondary: "resources/its-thesis-cover-without-logo-2.svg",
-  validationBackground: "resources/its-thesis-validation.png",
   bibliography: "bibliography.bib",
 )
 
@@ -106,10 +117,11 @@
   chief: chief,
   dates: dates,
   program: program,
+  program-en: program-en,
   essay: essay,
   title: title,
   paths: paths,
-  proposal: true, // true or false
+  proposal: false, // true or false
 )
 
 //=============================================================================
@@ -185,23 +197,25 @@ ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
 // Typst 0.13+ doesn't support par(indent: ...)
 // For abstracts, we can leave paragraphs without indent or use #par.leading
 
+#align(center, text(size: 12pt, weight: "bold")[ABSTRAK])
+
+#v(1em)
 #align(center, text(size: 12pt, weight: "bold")[
   #upper(title.id)
 ])
 
 #v(1em)
 #par(first-line-indent: 0pt)[
-  Nama Mahasiswa#tab-to(3.5cm, [Nama Mahasiswa]): #author \
-  NRP#tab-to(3.5cm, [NRP]): #nrp \
-  Pembimbing 1#tab-to(3.5cm, [Pembimbing 1]): #supervisors.at(0).name \
-  Pembimbing 2#tab-to(3.5cm, [Pembimbing 2]): #supervisors.at(1).name
+  Nama Mahasiswa / NRP #tab-to(4.4cm, [Nama Mahasiswa / NRP]): #author / #nrp \
+  Pembimbing 1#tab-to(4.4cm, [Pembimbing 1]): #supervisors.at(0).name \
+  Pembimbing 2#tab-to(4.4cm, [Pembimbing 2]): #supervisors.at(1).name
 ]
 
 #v(2em)
-#align(center, text(size: 13pt, weight: "bold")[#upper("ABSTRAK")])
+#block(align(left, text(size: 13pt, weight: "bold")[Abstrak]))
 
 #v(1em)
-Tulis abstrak bahasa Indonesia di sini. #lorem(250)
+Tulis abstrak bahasa Indonesia di sini. #lorem(220)
 
 #v(1em)
 #par(first-line-indent: 0pt)[
@@ -214,23 +228,25 @@ Tulis abstrak bahasa Indonesia di sini. #lorem(250)
 // 4. ENGLISH ABSTRACT
 //=============================================================================
 
+#align(center, text(size: 12pt, weight: "bold")[ABSTRACT])
+
+#v(1em)
 #align(center, text(size: 12pt, weight: "bold")[
   #upper(title.en)
 ])
 
 #v(1em)
 #par(first-line-indent: 0pt)[
-  Name#tab-to(4.3cm, [Name]): #author \
-  Student Identity Number#tab-to(4.3cm, [Student Identity Number]): #nrp \
+  Student Name / NRP #tab-to(4.3cm, [Student Name / NRP]): #author / #nrp \
   Supervisor 1#tab-to(4.3cm, [Supervisor 1]): #supervisors.at(0).name \
   Supervisor 2#tab-to(4.3cm, [Supervisor 2]): #supervisors.at(1).name
 ]
 
 #v(2em)
-#align(center, text(size: 13pt, weight: "bold")[#upper("ABSTRACT")])
+#block(align(left, text(size: 13pt, weight: "bold")[Abstract]))
 
 #v(1em)
-Write your English abstract here. #lorem(250)
+Write your English abstract here. #lorem(220)
 
 #v(1em)
 #par(first-line-indent: 0pt)[
