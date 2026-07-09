@@ -42,6 +42,15 @@
   #upper(body)
 ])
 
+#let tab-to(target-width, body) = context {
+  let current-width = measure(body).width
+  if current-width < target-width {
+    h(target-width - current-width)
+  } else {
+    h(0pt)
+  }
+}
+
 //=============================================================================
 // COVER PAGE 1  (blue background)
 //=============================================================================
@@ -55,7 +64,7 @@
       height: 100%,
     ),
   )
-  set text(fill: white, font: heading-font, fallback: true)
+  set text(font: heading-font, fallback: true)
 
   place(left + top, dx: 3cm, dy: 1.5cm)[
     #image(paths.logo, width: 3.5cm)
@@ -68,7 +77,10 @@
 
   place(left + top, dx: 3cm, dy: 10cm)[
     #set text(size: 22pt, weight: "bold")
-    #upper(title.id)
+    #block(width: 15cm)[
+      #set text(hyphenate: false)
+      #title.id
+    ]
   ]
 
   place(left + top, dx: 3cm, dy: 15cm)[
@@ -102,30 +114,48 @@
 //=============================================================================
 
 #let render-cover-2(author, nrp, essay, title, paths, supervisors, program) = {
-  set page(margin: (top: 1.5cm, bottom: 3cm, left: 3cm, right: 3cm))
-  set text(font: heading-font, fallback: true, weight: "bold")
+  set page(numbering: none, margin: 0cm)
+  set page(
+    background: image(
+      paths.coverBackgroundSecondary,
+      width: 100%,
+      height: 100%,
+    ),
+  )
+  set text(font: heading-font, fallback: true)
 
-  image(paths.logo, width: 3.5cm)
+  place(left + top, dx: 3cm, dy: 3.5cm)[
+    #image(paths.logo, width: 3.5cm)
+  ]
 
-  v(3cm)
-  set text(size: 16pt)
-  upper(essay)
+  place(left + top, dx: 3cm, dy: 10cm)[
+    #set text(size: 16pt, weight: "bold")
+    #upper(essay)
+  ]
 
-  v(0.9cm)
-  set text(size: 22pt)
-  upper(title.id)
+  place(left + top, dx: 3cm, dy: 12cm)[
+    #set text(size: 22pt, weight: "bold")
+    #block(width: 15cm)[
+      #set text(hyphenate: false)
+      #title.id
+    ]
+  ]
 
-  v(0.9cm)
-  set text(size: 14pt)
-  [#upper(author) \ #upper(nrp)]
+  place(left + top, dx: 3cm, dy: 17cm)[
+    #set text(size: 14pt, weight: "bold")
+    #upper(author) \
+    #upper(nrp)
+  ]
+  
+  place(left + top, dx: 3cm, dy: 20cm)[
+    #set text(size: 12pt)
+    DOSEN PEMBIMBING \
+    #supervisors.at(0).name \
+    #supervisors.at(1).name
+  ]
 
-  v(0.9cm)
-  set text(size: 12pt)
-  [DOSEN PEMBIMBING \ #supervisors.at(0).name \ #supervisors.at(1).name]
-
-  v(0.9cm)
-  set text(size: 11pt)
-  [
+  place(left + top, dx: 3cm, dy: 22.5cm)[
+    #set text(size: 11pt)
     #upper(program.type) \
     BIDANG KEAHLIAN #upper(program.courseClass) (#program.courseClassShort) \
     PROGRAM STUDI #upper(program.degree) #upper(program.concentration) \
@@ -142,15 +172,6 @@
 //=============================================================================
 
 #let render-proposal-approval(title, author, nrp, dates, examiners, supervisors) = {
-  set page(
-    margin: (
-      top: 3.5cm,
-      bottom: 3.0cm,
-      inside: 2.75cm,
-      outside: 2.50cm,
-    ),
-    background: none,
-  )
   set text(font: body-font, fill: black, weight: "regular", size: 11pt)
 
   align(center, text(size: 14pt, weight: "bold")[
@@ -158,43 +179,51 @@
     #upper("PROPOSAL TESIS")
   ])
 
+  align(left, text(size: 12pt)[
+    #v(1em)
+    #table(
+      columns: (2cm, 1fr),
+      stroke: none,
+      [Judul], [: #title.id],
+      [Oleh], [: #author],
+      [NRP], [: #nrp]
+    )
+
+
+    #v(1.5em)
+    #align(center)[Telah diseminarkan pada,]
+
+    Hari#tab-to(2cm, [Hari]): #dates.exam.day \
+    Tanggal#tab-to(2cm, [Tanggal]): #dates.exam.date \
+    Tempat#tab-to(2cm, [Tempat]): #dates.exam.place
+
+    #v(1.5em)
+    #align(center)[Mengetahui / menyetujui,]
+  ])
+
   v(1em)
-
-  [Judul: #title.id]
-  [Mahasiswa: #author]
-  [NRP: #nrp]
-
-  v(1.5em)
-  [Telah diseminarkan pada,]
-
-  [Hari: #dates.exam.day]
-  [Tanggal: #dates.exam.date]
-  [Tempat: #dates.exam.place]
-
-  v(1.5em)
-  [Mengetahui/Menyetujui,]
-
-  v(1em)
-  set text(size: 10pt)
-
-  let penguji-label = text(weight: "bold")[Dosen Penguji:]
-  let pembimbing-label = text(weight: "bold")[Dosen Pembimbing:]
+  set text(size: 12pt)
 
   grid(
     columns: (1fr, 1fr),
-    gutter: 1cm,
+    gutter: 1em,
     align: left,
-    penguji-label,
-    pembimbing-label,
-    [1. #examiners.at(0).name],
-    [1. #supervisors.at(0).name],
+    [Dosen Penguji], [Dosen Pembimbing],
+    [#image(examiners.at(0).sign, width: 3cm)],
+    [#image(supervisors.at(0).sign, width: 3cm)],
+    [#examiners.at(0).name],
+    [#supervisors.at(0).name],
     [NIP: #examiners.at(0).nip],
     [NIP: #supervisors.at(0).nip],
-    [2. #examiners.at(1).name],
-    [2. #supervisors.at(1).name],
+    [#image(examiners.at(1).sign, width: 3cm)],
+    [#image(supervisors.at(1).sign, width: 3cm)],
+    [#examiners.at(1).name],
+    [#supervisors.at(1).name],
     [NIP: #examiners.at(1).nip],
     [NIP: #supervisors.at(1).nip],
-    [3. #examiners.at(2).name],
+    [#image(examiners.at(2).sign, width: 3cm)],
+    [],
+    [#examiners.at(2).name],
     [],
     [NIP: #examiners.at(2).nip],
     [],
@@ -205,7 +234,7 @@
 // THESIS APPROVAL
 //=============================================================================
 
-#let render-thesis-approval(paths, program, author, nrp, dates, supervisors, examiners, chief) = {
+#let render-thesis-approval(paths, program, author, nrp, sign, dates, supervisors, examiners, chief) = {
   set page(margin: standard-margin)
   set page(
     background: image(
@@ -216,11 +245,11 @@
   )
 
   align(center)[
-    #v(0.5em)
     #set text(size: 14pt, weight: "bold")
+    #set par(leading: 0.6em)
     #upper("Lembar Pengesahan Tesis")
 
-    #v(2em)
+    #v(1em)
     #set text(weight: "bold")
     Tesis disusun untuk memenuhi salah satu syarat memperoleh gelar \
     #program.title \
@@ -240,31 +269,29 @@
     Disetujui oleh:
   ]
 
-  let bpemb = text(weight: "bold")[Pembimbing:]
-  let bpeng = text(weight: "bold")[Penguji:]
-
+  set text(weight: "bold")
+  set par(leading: 0.6em)
   grid(
-    columns: (auto, 1fr),
-    gutter: 5pt,
+    columns: (auto, 2fr, 1fr),
+    gutter: 8pt,
     align: left,
-    bpemb, [],
-    [1.], [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip],
-    [2.], [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip],
-    [], [],
-    bpeng, [],
-    [1.], [#examiners.at(0).name \ NIP: #examiners.at(0).nip],
-    [2.], [#examiners.at(1).name \ NIP: #examiners.at(1).nip],
-    [3.], [#examiners.at(2).name \ NIP: #examiners.at(2).nip],
+    [1.], [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip \ (Pembimbing 1)], [#image(supervisors.at(0).sign, width: 3cm)],
+    [2.], [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip \ (Pembimbing 2)], [#image(supervisors.at(1).sign, width: 3cm)],
+    [3.], [#examiners.at(0).name \ NIP: #examiners.at(0).nip \ (Penguji 1)], [#image(examiners.at(0).sign, width: 3cm)],
+    [4.], [#examiners.at(1).name \ NIP: #examiners.at(1).nip \ (Penguji 2)], [#image(examiners.at(1).sign, width: 3cm)],
+    [5.], [#examiners.at(2).name \ NIP: #examiners.at(2).nip \ (Penguji 3)], [#image(examiners.at(2).sign, width: 3cm)],
   )
 
-  v(2.5em)
+  v(1.5em)
 
-  align(center)[
+  align(left)[
     Kepala #program.department \
-    #program.faculty \
-    \
-    \
-    \
+    #v(0.3em)
+    #box(
+      [#set align(center)
+      #image(chief.sign, width: 3cm)]
+    ) \
+    #v(0.3em)
     #underline(chief.name) \
     NIP: #chief.nip
   ]
@@ -274,7 +301,7 @@
 // ORIGINALITY STATEMENT
 //=============================================================================
 
-#let render-originality(author, nrp, supervisors, program, title, dates) = {
+#let render-originality(author, nrp, sign, supervisors, program, title, dates) = {
   set page(margin: (
     top: 3.5cm,
     bottom: 3.0cm,
@@ -292,12 +319,12 @@
 
   v(0.5em)
   [
-    Nama               : #author (#nrp) \
-    Dosen Pembimbing 1 : #supervisors.at(0).name (#supervisors.at(0).nip) \
-    Dosen Pembimbing 2 : #supervisors.at(1).name (#supervisors.at(1).nip) \
-    Program Studi      : #program.degree #program.concentration \
-    Departemen         : #program.department \
-    Fakultas           : #program.faculty
+    Nama Mahasiswa (NRP) #tab-to(4.5cm, [Nama Mahasiswa (NRP)]): #author (#nrp) \
+    Dosen Pembimbing 1 (NIP) #tab-to(4.5cm, [Dosen Pembimbing 1 (NIP)]): #supervisors.at(0).name (#supervisors.at(0).nip) \
+    Dosen Pembimbing 2 (NIP) #tab-to(4.5cm, [Dosen Pembimbing 2 (NIP)]): #supervisors.at(1).name (#supervisors.at(1).nip) \
+    Program Studi #tab-to(4.5cm, [Program Studi]): #program.degree #program.concentration \
+    Departemen #tab-to(4.5cm, [Departemen]): #program.department \
+    Fakultas #tab-to(4.5cm, [Fakultas]): #program.faculty
   ]
 
   v(0.5em)
@@ -317,24 +344,28 @@
   v(2em)
 
   align(right)[
-    #program.city, #dates.writing \
-    Mahasiswa \
-    \
-    \
-    #author \
-    NRP: #nrp
+    #block()[
+      #set text(size: 12pt)
+      #set align(left)
+      #set par(leading: 0.6em)
+      #program.city, #dates.writing \
+      #image(sign, width: 3cm)
+      #author \
+      NRP: #nrp
+    ]
   ]
 
   v(1em)
 
-  [Mengetahui,]
+  align(center)[Mengetahui,]
 
   grid(
     columns: (1fr, 1fr),
-    gutter: 3cm,
+    gutter: 1cm,
     align: center,
-    [#supervisors.at(0).shortName \ NIP: #supervisors.at(0).nip],
-    [#supervisors.at(1).shortName \ NIP: #supervisors.at(1).nip],
+    [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip],
+    [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip],
+    [#image(supervisors.at(0).sign, width: 3cm)], [#image(supervisors.at(1).sign, width: 3cm)],
     [Dosen Pembimbing 1],
     [Dosen Pembimbing 2],
   )
@@ -354,6 +385,7 @@
 #let thesis(
   author: none,
   nrp: none,
+  sign: none,
   supervisors: none,
   examiners: none,
   chief: none,
@@ -362,6 +394,7 @@
   essay: none,
   title: none,
   paths: none,
+  proposal: true,
   doc,
 ) = {
   // ---- 1. Document-wide defaults ----
@@ -373,10 +406,14 @@
 
   // ---- 2. Heading show-rules ----
   show heading.where(level: 1): it => {
-    v(2em)
+    pagebreak(weak: true)
     set align(center)
     set text(size: 14pt, weight: "bold")
-    it
+    block[
+      #text[BAB #counter(heading).display("1")]
+      \
+      #text[#upper(it.body)]
+    ]
     v(1.5em)
   }
 
@@ -393,39 +430,52 @@
   }
 
   // ---- 3. Figure-caption style ----
-  show figure.caption: set text(size: 10pt)
+  //? Table
+  show figure.where(kind: table): it => context [
+    #set text(size: 10pt)
+    Tabel #counter(heading.where(level: 1)).display()#it.counter.display(it.numbering). #it.caption.body
+    #it.body
+  ]
+
+  //? Image
+  show figure.where(kind: image): it => context [
+    #set text(size: 10pt)
+    #it.body
+    Gambar #counter(heading.where(level: 1)).display()#it.counter.display(it.numbering). #it.caption.body
+  ]
 
   // ---- 4. COVER PAGE 1 (with background) ----
   render-cover-1(author, nrp, essay, title, paths, supervisors, program)
-  pagebreak()
-
-  // ---- 5. BLANK PAGE ----
-  set page(margin: standard-margin, background: none, numbering: none)
-  set text(fill: black, font: body-font)
   pagebreak()
 
   // ---- 6. COVER PAGE 2 (no background) ----
   render-cover-2(author, nrp, essay, title, paths, supervisors, program)
   pagebreak()
 
-  // ---- 7. PROPOSAL APPROVAL ----
-  render-proposal-approval(title, author, nrp, dates, examiners, supervisors)
-  pagebreak()
+  // ---- 5. BLANK PAGE ----
+  set page(margin: standard-margin, background: none, numbering: none)
+  set text(fill: black, font: body-font)
 
-  // ---- 8. THESIS APPROVAL ----
-  render-thesis-approval(paths, program, author, nrp, dates, supervisors, examiners, chief)
-  pagebreak()
 
-  // Remove validation background after thesis-approval page
-  set page(background: none)
+  if (proposal) {
+    // ---- 7. PROPOSAL APPROVAL ----
+    render-proposal-approval(title, author, nrp, dates, examiners, supervisors)
+    pagebreak()
+  } else {
+    // ---- 8. THESIS APPROVAL ----
+    render-thesis-approval(paths, program, author, nrp, sign, dates, supervisors, examiners, chief)
+    pagebreak()
 
-  // ---- 9. ORIGINALITY STATEMENT ----
-  render-originality(author, nrp, supervisors, program, title, dates)
-  pagebreak()
+    // ---- 9. ORIGINALITY STATEMENT ----
+    render-originality(author, nrp, sign, supervisors, program, title, dates)
+    pagebreak()
+  }
+
 
   // ---- 10. Reset to standard settings ----
   set page(margin: standard-margin, background: none)
   set text(font: body-font, size: 12pt, fill: black, weight: "regular")
+  set par(first-line-indent: (amount: 1.5em, all: true))
 
   // ---- 11. Roman numbering for preliminary pages ----
   set page(numbering: "i")

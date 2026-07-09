@@ -21,22 +21,23 @@
 // --- Author Information ---
 #let author = "Nama Mahasiswa"
 #let nrp = "60xxxxxxxx"
+#let sign = "resources/fake-sign.svg"
 
 // --- Supervisor Information ---
 #let supervisors = (
-  (name: "Dosen Pembimbing ke-1 (Lengkap)", shortName: "Dosen Pembimbing ke-1 (Singkat)", nip: "20xxxxxxxx"),
-  (name: "Dosen Pembimbing ke-2 (Lengkap)", shortName: "Dosen Pembimbing ke-2 (Singkat)", nip: "20xxxxxxxx"),
+  (name: "Dosen Pembimbing ke-1", nip: "20xxxxxxxx", sign: "resources/fake-sign.svg"),
+  (name: "Dosen Pembimbing ke-2", nip: "20xxxxxxxx", sign: "resources/fake-sign.svg"),
 )
 
 // --- Examiner Information ---
 #let examiners = (
-  (name: "Dosen Penguji ke-1 (Lengkap)", shortName: "Dosen Penguji ke-1 (Singkat)", nip: "20xxxxxxxx"),
-  (name: "Dosen Penguji ke-2 (Lengkap)", shortName: "Dosen Penguji ke-2 (Singkat)", nip: "20xxxxxxxx"),
-  (name: "Dosen Penguji ke-3 (Lengkap)", shortName: "Dosen Penguji ke-3 (Singkat)", nip: "20xxxxxxxx"),
+  (name: "Dosen Penguji ke-1", nip: "20xxxxxxxx", sign: "resources/fake-sign.svg"),
+  (name: "Dosen Penguji ke-2", nip: "20xxxxxxxx", sign: "resources/fake-sign.svg"),
+  (name: "Dosen Penguji ke-3", nip: "20xxxxxxxx", sign: "resources/fake-sign.svg"),
 )
 
 // --- Head of Department ---
-#let chief = (name: "Kepala Departemen Informatika", nip: "20xxxxxxxx")
+#let chief = (name: "Nama Kepala Departemen Informatika", nip: "20xxxxxxxx", sign: "resources/fake-sign.svg")
 
 // --- Dates ---
 #let dates = (
@@ -61,21 +62,32 @@
 )
 
 // --- Essay Code ---
-#let essay = "IF185301 TESIS"
+#let essay = "Tesis Sidang Akhir - EF235401"
 
 // --- Thesis Titles ---
 #let title = (
-  id: "TESIS MAHASISWA DEPARTEMEN TEKNIK INFORMATIKA INSTITUT TEKNOLOGI SEPULUH NOPEMBER (DALAM BAHASA INDONESIA)",
-  en: "POSTGRADUATE STUDENT THESIS OF INFORMATICS DEPARTMENT OF SEPULUH NOPEMBER INSTITUTE OF TECHNOLOGY (IN ENGLISH)",
+  id: "Tesis Mahasiswa Departemen Teknik Informatika Institut Teknologi Sepuluh Nopember (dalam Bahasa Indonesia)",
+  en: "Master Student Thesis of the Department of Informatics, Institut Teknologi Sepuluh Nopember (in English)",
 )
 
 // --- Resource Paths (relative to src/) ---
 #let paths = (
   logo: "resources/its-logo.png",
-  coverBackground: "resources/its-thesis-cover-without-logo.png",
+  coverBackground: "resources/its-thesis-cover-without-logo.svg",
+  coverBackgroundSecondary: "resources/its-thesis-cover-without-logo-2.svg",
   validationBackground: "resources/its-thesis-validation.png",
   bibliography: "bibliography.bib",
 )
+
+// HELPER
+#let tab-to(target-width, body) = context {
+  let current-width = measure(body).width
+  if current-width < target-width {
+    h(target-width - current-width)
+  } else {
+    h(0pt)
+  }
+}
 
 //=============================================================================
 // TEMPLATE SETUP
@@ -88,6 +100,7 @@
 #show: thesis.with(
   author: author,
   nrp: nrp,
+  sign: sign,
   supervisors: supervisors,
   examiners: examiners,
   chief: chief,
@@ -96,17 +109,24 @@
   essay: essay,
   title: title,
   paths: paths,
+  proposal: true, // true or false
 )
 
 //=============================================================================
 // 1. DEDICATION
 //=============================================================================
 
-#v(6cm)
+#align(center, text(size: 13pt, weight: "bold")[#upper("HALAMAN PERSEMBAHAN")])
+#v(1.5em)
 #align(left)[
-  Karya ini kupersembahkan kepada: \
-  istriku tercinta, anak-anakku tersayang, dan kedua orang tuaku \
-  yang selalu mendukungku dan mendoakanku.
+  Dengan penuh rasa syukur, dengan telah diselesaikannya Tesis ini, Penulis mempersembahkannya kepada: \
+  + istriku tercinta, anak-anakku tersayang, dan kedua orang tuaku yang selalu mendukungku dan mendoakanku. 
+  + #lorem(50)
+  + #lorem(50)
+  + #lorem(50)
+  + #lorem(50)
+  + #lorem(50)
+  + #lorem(50)
 ]
 
 #pagebreak()
@@ -134,10 +154,10 @@ Institut Teknologi Sepuluh Nopember (ITS), Surabaya, Indonesia.
 Dalam penyusunan tesis ini tidak terlepas dari pihak-pihak yang memberikan
 dukungan baik secara materiil maupun non-materiil.
 
-+ .....
-+ .....
-+ .....
-+ .....
++ #lorem(30)
++ #lorem(30)
++ #lorem(30)
++ #lorem(30)
 
 Semoga Allah SWT selalu melindungi dan memberikan rahmat-Nya.
 
@@ -166,22 +186,27 @@ ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
 // For abstracts, we can leave paragraphs without indent or use #par.leading
 
 #align(center, text(size: 12pt, weight: "bold")[
-  #title.id
+  #upper(title.id)
 ])
 
 #v(1em)
-#author / #nrp \
-Pembimbing 1: #supervisors.at(0).name \
-Pembimbing 2: #supervisors.at(1).name
+#par(first-line-indent: 0pt)[
+  Nama Mahasiswa#tab-to(3.5cm, [Nama Mahasiswa]): #author \
+  NRP#tab-to(3.5cm, [NRP]): #nrp \
+  Pembimbing 1#tab-to(3.5cm, [Pembimbing 1]): #supervisors.at(0).name \
+  Pembimbing 2#tab-to(3.5cm, [Pembimbing 2]): #supervisors.at(1).name
+]
 
 #v(2em)
 #align(center, text(size: 13pt, weight: "bold")[#upper("ABSTRAK")])
 
 #v(1em)
-Tulis abstrak bahasa Indonesia di sini.
+Tulis abstrak bahasa Indonesia di sini. #lorem(250)
 
 #v(1em)
-#text(weight: "bold")[Kata Kunci:] Pertama, Kedua, Ketiga, Keempat, Kelima.
+#par(first-line-indent: 0pt)[
+  #text(weight: "bold")[Kata Kunci:] Pertama, Kedua, Ketiga, Keempat, Kelima.
+]
 
 #pagebreak()
 
@@ -190,22 +215,27 @@ Tulis abstrak bahasa Indonesia di sini.
 //=============================================================================
 
 #align(center, text(size: 12pt, weight: "bold")[
-  #title.en
+  #upper(title.en)
 ])
 
 #v(1em)
-#author / #nrp \
-Supervisor 1: #supervisors.at(0).name \
-Supervisor 2: #supervisors.at(1).name
+#par(first-line-indent: 0pt)[
+  Name#tab-to(4.3cm, [Name]): #author \
+  Student Identity Number#tab-to(4.3cm, [Student Identity Number]): #nrp \
+  Supervisor 1#tab-to(4.3cm, [Supervisor 1]): #supervisors.at(0).name \
+  Supervisor 2#tab-to(4.3cm, [Supervisor 2]): #supervisors.at(1).name
+]
 
 #v(2em)
 #align(center, text(size: 13pt, weight: "bold")[#upper("ABSTRACT")])
 
 #v(1em)
-Write your English abstract here.
+Write your English abstract here. #lorem(250)
 
 #v(1em)
-#text(weight: "bold")[Keywords:] First, Second, Third, Fourth, Fifth.
+#par(first-line-indent: 0pt)[
+  #text(weight: "bold")[Keywords:] First, Second, Third, Fourth, Fifth.
+]
 
 #pagebreak()
 
