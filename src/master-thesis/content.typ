@@ -18,9 +18,11 @@ penulisan laporan tesis.
 
 Pada bagian ini, penulis menjelaskan latar belakang penelitian yang dilakukan. #lorem(100)
 
-#lorem(100) @bhati2020review
+#lorem(100) @faizin2024optimizing
 
-#lorem(100) @mehrotra2019financial
+#lorem(100) @faizin2024indonesia
+
+#lorem(100) @faizin2025evaluation
 
 == Rumusan Masalah
 
