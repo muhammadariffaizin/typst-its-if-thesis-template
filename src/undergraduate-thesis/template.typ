@@ -28,10 +28,10 @@
 #let body-font = "Times New Roman"
 
 #let standard-margin = (
-  top: 3.5cm,
-  bottom: 3.0cm,
-  inside: 4.0cm,
-  outside: 3.0cm,
+  top: 3.0cm,
+  bottom: 2.5cm,
+  inside: 3.0cm,
+  outside: 2.0cm,
 )
 
 //=============================================================================
@@ -120,7 +120,7 @@
 
   place(left + top, dx: 3cm, dy: 7cm)[
     #set text(size: 16pt, weight: "bold")
-    #upper(essay.en)
+    #upper(essay.id)
   ]
 
   place(left + top, dx: 3cm, dy: 9cm)[
@@ -283,7 +283,7 @@
     #text(upper("Lembar Pengesahan"), weight: "bold") \
 
     #v(1em)
-    #text(upper(title.id), weight: "bold") \
+    #text(upper(title.id), weight: "bold", hyphenate: false) \
     \
     #text(upper("TUGAS AKHIR"), weight: "bold") \
     Diajukan untuk memenuhi salah satu syarat \
@@ -328,10 +328,10 @@
 
 #let render-originality(author, nrp, sign, supervisors, program, title, dates) = {
   set page(margin: (
-    top: 3.5cm,
-    bottom: 3.0cm,
-    left: 4.0cm,
-    right: 2.5cm,
+    top: 3.0cm,
+    bottom: 2.5cm,
+    left: 3.0cm,
+    right: 2.0cm,
   ))
   set text(size: 11pt)
 
