@@ -1,80 +1,94 @@
-## General Information
+# ITS-IF-THESIS-TYPST
 
-**Typst Template for ITS Thesis (Master's & Undergraduate)**
+<p align="center">
+  <strong>Typst Template for ITS Thesis — Master's & Undergraduate</strong><br>
+  <em>Department of Informatics · Faculty of Intelligent Electrical and Informatics Technology</em><br>
+  <em>Institut Teknologi Sepuluh Nopember (ITS) · Surabaya, Indonesia</em>
+</p>
 
-*Department of Informatics*,
+<p align="center">
+  <img alt="Code Name" src="https://img.shields.io/badge/code-ITS--IF--THESIS--TYPST%200.1.0-blue">
+  <img alt="Built With" src="https://img.shields.io/badge/built%20with-Typst-239DAD">
+  <img alt="License" src="https://img.shields.io/badge/license-GPLv3.0-green">
+</p>
 
-*Faculty of Intelligent Electrical and Informatics Technology*,
+---
 
-*Institut Teknologi Sepuluh Nopember (ITS)*,
+## 📖 Overview
 
-*Surabaya, Indonesia.*
+[Typst](https://typst.app) is a modern, markup-based typesetting system for the
+sciences that serves as a compelling alternative to LaTeX. It combines powerful
+scripting capabilities with clean, readable syntax. This template reproduces the
+official ITS thesis formatting — for both levels — using Typst's more intuitive
+language.
 
+At the **Department of Informatics, Faculty of Intelligent Electrical and
+Informatics Technology, Institut Teknologi Sepuluh Nopember (ITS)**, every student
+must produce a final academic work:
 
-## Code Name
+- **Undergraduate** students → **Tugas Akhir** (Final Project)
+- **Master's** students → **Tesis** (Thesis)
 
-**ITS-IF-THESIS-TYPST 0.1.0**
+This template makes writing those documents easier while still following the ITS
+official thesis guidance for both levels.
 
-## Short Description
+> Converted from the original LaTeX template by **Ravi Vendra Rishika**.<br>
+> Inspired by
+> [ravivendra/latex-its-if-thesis-template](https://github.com/ravivendra/latex-its-if-thesis-template).
 
-Typst is a modern, markup-based typesetting system for the sciences that serves as a compelling alternative to LaTeX. It combines powerful scripting capabilities with clean, readable syntax. This template provides the same ITS thesis formatting as the original LaTeX version, but uses Typst's more intuitive syntax.
+---
 
-In *Department of Informatics, Faculty of Intelligent Electrical and Informatics Technology, Institut Teknologi Sepuluh Nopember (ITS), Surabaya, Indonesia*, every student is required to write a final academic work — both *undergraduate* students writing a **Tugas Akhir** (Final Project) and *master's degree* students writing a **Tesis** (Thesis) alongside their research.
+## ✨ Sample Output
 
-This template is intended to make writing academic papers easier by using Typst while still following the ITS official thesis guidance for both levels.
+<p align="center">
+  <img src="samples/master-thesis-sample.jpg" alt="Master's Thesis Sample" width="48%">
+  <img src="samples/master-thesis-sample-2.jpg" alt="Master's Thesis Sample 2" width="48%">
+</p>
+<p align="center">
+  <em>Master's Thesis (Tesis)</em>
+</p>
 
-This is a conversion of the original LaTeX template by Ravi Vendra Rishika to Typst format.
+<p align="center">
+  <img src="samples/undergraduate-thesis-sample.jpg" alt="Undergraduate Thesis Sample" width="48%">
+  <img src="samples/undergraduate-thesis-sample-2.jpg" alt="Undergraduate Thesis Sample 2" width="48%">
+</p>
+<p align="center">
+  <em>Undergraduate Thesis (Tugas Akhir)</em>
+</p>
 
-Inspired by https://github.com/ravivendra/latex-its-if-thesis-template
+---
 
-
-
-## Author
-
-1. **Muhammad 'Arif Faizin** <<ariffaizin@its.ac.id>>
-
-If there is any question or advice to make this template improved, please feel free to contact me via the email address aforementioned.
-
-
-## Technology Stack
-
-This Typst template project is developed using **Typst**.
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Typst](https://typst.app) installed on your system
-- Alternatively, use the [Typst web app](https://typst.app)
+- [Typst](https://typst.app) installed locally, **or**
+- Use the [Typst web app](https://typst.app) directly in your browser.
 
 ### How to Compile
 
-Choose the appropriate thesis type:
-
 ```bash
 # ── Master's Thesis ──────────────────────────────────
-# Via make (recommended)
 make master
-
-# Or manually
+# or manually
 typst compile src/master-thesis/thesis.typ build/thesis.pdf
-
-# Watch mode (live preview)
+# live preview
 typst watch src/master-thesis/thesis.typ build/thesis.pdf
 
 # ── Undergraduate Thesis (Tugas Akhir) ──────────────
-# Via make
 make undergraduate
-
-# Or manually
+# or manually
 typst compile src/undergraduate-thesis/thesis.typ build/thesis.pdf
-
-# Watch mode (live preview)
+# live preview
 typst watch src/undergraduate-thesis/thesis.typ build/thesis.pdf
 ```
 
+---
 
-## File Structure
+## 📁 File Structure
 
-This repository provides two independent template directories under `src/`. Each is a self-contained thesis project with its own configuration, template, content, and resources.
+Two independent template directories live under `src/`. Each is a self-contained
+thesis project with its own configuration, template, content, and resources.
 
 ```
 ├── src/
@@ -103,15 +117,19 @@ This repository provides two independent template directories under `src/`. Each
 │           ├── fake-sign.svg
 │           └── chapter-2-power-digital-finance.png
 │
-├── build/                # Build output directory
+├── samples/                # Sample rendered pages (JPG)
+├── build/                  # Build output directory
 │   └── thesis.pdf
-├── Makefile              # Build automation
+├── Makefile                # Build automation
 └── LICENSE
 ```
 
-## Customization
+---
 
-Each thesis type has its own independent configuration. Edit the variables at the top of the respective `thesis.typ` file:
+## 🎨 Customization
+
+Each thesis type has its own independent configuration. Edit the variables at the
+top of the respective `thesis.typ` file:
 
 - **Master's**: [`src/master-thesis/thesis.typ`](src/master-thesis/thesis.typ)
 - **Undergraduate**: [`src/undergraduate-thesis/thesis.typ`](src/undergraduate-thesis/thesis.typ)
@@ -260,7 +278,7 @@ Each person entry includes a `sign` field pointing to their signature image (SVG
 
 ### Template Flags
 
-**Master's** — the template is applied at the bottom of [`src/master-thesis/thesis.typ`](src/master-thesis/thesis.typ):
+**Master's** — applied at the bottom of [`src/master-thesis/thesis.typ`](src/master-thesis/thesis.typ):
 
 ```typst
 #show: thesis.with(
@@ -281,7 +299,7 @@ Each person entry includes a `sign` field pointing to their signature image (SVG
 - **`proposal: true`** — renders the *Proposal Tesis* approval page (for seminar).
 - **`proposal: false`** — renders the final *Lembar Pengesahan Tesis* page followed by the *Pernyataan Orisinalitas* statement.
 
-**Undergraduate** — the template is applied at the bottom of [`src/undergraduate-thesis/thesis.typ`](src/undergraduate-thesis/thesis.typ) and includes `program-en`:
+**Undergraduate** — applied at the bottom of [`src/undergraduate-thesis/thesis.typ`](src/undergraduate-thesis/thesis.typ) and includes `program-en`:
 
 ```typst
 #show: thesis.with(
@@ -320,17 +338,31 @@ Nama#tab-to(3.5cm, [Nama]): #author \
 NRP#tab-to(3.5cm, [NRP]): #nrp
 ```
 
-## Makefile Targets
+---
+
+## 🔧 Makefile Targets
 
 ```bash
-make master        # Build master's thesis PDF
-make undergraduate # Build undergraduate thesis PDF
-make watch-master  # Watch mode for master's thesis (live preview)
-make watch-undergraduate # Watch mode for undergraduate thesis (live preview)
-make clean         # Remove build artifacts
-make help          # Show available targets
+make master               # Build master's thesis PDF
+make undergraduate        # Build undergraduate thesis PDF
+make watch-master         # Watch mode for master's thesis (live preview)
+make watch-undergraduate  # Watch mode for undergraduate thesis (live preview)
+make clean                # Remove build artifacts
+make help                 # Show available targets
 ```
 
-## License
+---
 
-This Typst template project is developed using the license : **GNU GPL v3.0**, a free, copyleft license for software and other kinds of works.
+## 👤 Author
+
+**Muhammad 'Arif Faizin** <ariffaizin@its.ac.id>
+
+For questions or suggestions to improve this template, feel free to reach out via
+the email above.
+
+---
+
+## 📄 License
+
+Released under the **GNU GPL v3.0** — a free, copyleft license for software and
+other kinds of works. See the [`LICENSE`](LICENSE) file for details.
