@@ -1,12 +1,19 @@
 # Typst build automation for ITS thesis template
-.PHONY: all clean install watch help
+# Supports both master's and undergraduate thesis.
+.PHONY: all master undergraduate clean watch-master watch-undergraduate help
 
-all: install
+all: master
 
-install:
+master:
 	@mkdir -p build
-	@echo "Building Typst document..."
-	typst compile src/thesis.typ build/thesis.pdf
+	@echo "Building Master's Thesis PDF..."
+	typst compile src/master-thesis/thesis.typ build/thesis.pdf
+	@echo "Output: build/thesis.pdf"
+
+undergraduate:
+	@mkdir -p build
+	@echo "Building Undergraduate Thesis PDF..."
+	typst compile src/undergraduate-thesis/thesis.typ build/thesis.pdf
 	@echo "Output: build/thesis.pdf"
 
 clean:
@@ -15,8 +22,11 @@ clean:
 	@echo "Done."
 
 # Preview mode (for live preview)
-watch:
-	typst watch src/thesis.typ build/thesis.pdf
+watch-master:
+	typst watch src/master-thesis/thesis.typ build/thesis.pdf
+
+watch-undergraduate:
+	typst watch src/undergraduate-thesis/thesis.typ build/thesis.pdf
 
 # Help
 help:
@@ -24,16 +34,19 @@ help:
 	@echo "========================"
 	@echo ""
 	@echo "Targets:"
-	@echo "  all       - Build the PDF"
-	@echo "  install   - Build the PDF"
-	@echo "  clean     - Remove build artifacts"
-	@echo "  watch     - Build and watch for changes (live preview)"
+	@echo "  all (default)      - Build master's thesis PDF"
+	@echo "  master             - Build master's thesis PDF"
+	@echo "  undergraduate      - Build undergraduate thesis PDF"
+	@echo "  clean              - Remove build artifacts"
+	@echo "  watch-master       - Watch & live preview for master's thesis"
+	@echo "  watch-undergraduate- Watch & live preview for undergraduate thesis"
 	@echo ""
 	@echo "Usage:"
-	@echo "  make          # Build the thesis"
-	@echo "  make watch    # Live preview"
+	@echo "  make               # Build master's thesis"
+	@echo "  make undergraduate  # Build undergraduate thesis"
+	@echo "  make watch-master   # Live preview for master's thesis"
 	@echo ""
 	@echo "Files to edit:"
-	@echo "  src/config.yaml  - Thesis metadata"
-	@echo "  src/thesis.typ   - Document content"
-	@echo "  src/template.typ - Layout and styling"
+	@echo "  src/master-thesis/thesis.typ        - Master's config + content"
+	@echo "  src/undergraduate-thesis/thesis.typ - Undergraduate config + content"
+	@echo "  src/*/template.typ                  - Layout and styling"

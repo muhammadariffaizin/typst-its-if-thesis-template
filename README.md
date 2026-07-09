@@ -1,6 +1,6 @@
 ## General Information
 
-**Typst Template for Master Degree Student's Thesis**
+**Typst Template for ITS Thesis (Master's & Undergraduate)**
 
 *Department of Informatics*,
 
@@ -13,17 +13,15 @@
 
 ## Code Name
 
-**ITS-IF-THESIS-TYPST 1.0.0**
+**ITS-IF-THESIS-TYPST 0.1.0**
 
 ## Short Description
 
 Typst is a modern, markup-based typesetting system for the sciences that serves as a compelling alternative to LaTeX. It combines powerful scripting capabilities with clean, readable syntax. This template provides the same ITS thesis formatting as the original LaTeX version, but uses Typst's more intuitive syntax.
 
-In *Department of Informatics, Faculty of Intelligent Electrical and Informatics Technology, Institut Teknologi Sepuluh Nopember (ITS), Surabaya, Indonesia*, every student will be assigned to write a final paper, also the *master's degree* student who should write a **thesis** alongside with the research and publish the paper to the credible journals or conferences.
+In *Department of Informatics, Faculty of Intelligent Electrical and Informatics Technology, Institut Teknologi Sepuluh Nopember (ITS), Surabaya, Indonesia*, every student is required to write a final academic work — both *undergraduate* students writing a **Tugas Akhir** (Final Project) and *master's degree* students writing a **Tesis** (Thesis) alongside their research.
 
-This template is intended to make them easier to write a thesis paperwork by using Typst and still following the ITS postgraduate thesis official guidance.
-
-Currently this template is especially developed and written for Department of Informatics master degree student, but it could be widely enhanced, improved, and re-written for other department or faculty.
+This template is intended to make writing academic papers easier by using Typst while still following the ITS official thesis guidance for both levels.
 
 This is a conversion of the original LaTeX template by Ravi Vendra Rishika to Typst format.
 
@@ -49,34 +47,63 @@ This Typst template project is developed using **Typst**.
 
 ### How to Compile
 
+Choose the appropriate thesis type:
+
 ```bash
+# ── Master's Thesis ──────────────────────────────────
 # Via make (recommended)
-make install
+make master
 
 # Or manually
-typst compile src/thesis.typ build/thesis.pdf
+typst compile src/master-thesis/thesis.typ build/thesis.pdf
 
 # Watch mode (live preview)
-typst watch src/thesis.typ build/thesis.pdf
+typst watch src/master-thesis/thesis.typ build/thesis.pdf
+
+# ── Undergraduate Thesis (Tugas Akhir) ──────────────
+# Via make
+make undergraduate
+
+# Or manually
+typst compile src/undergraduate-thesis/thesis.typ build/thesis.pdf
+
+# Watch mode (live preview)
+typst watch src/undergraduate-thesis/thesis.typ build/thesis.pdf
 ```
 
 
 ## File Structure
 
+This repository provides two independent template directories under `src/`. Each is a self-contained thesis project with its own configuration, template, content, and resources.
+
 ```
 ├── src/
-│   ├── thesis.typ        # Main document file (entry point + configuration)
-│   ├── bibliography.bib  # Bibliography database (BibTeX format)
-│   ├── template.typ      # Layout and styling template
-│   ├── content.typ       # Thesis chapters content
-│   └── resources/        # Image resources
-│       ├── its-logo.png
-│       ├── its-thesis-cover-without-logo.svg
-│       ├── its-thesis-cover-without-logo-2.svg
-│       ├── its-thesis-validation.png
-│       ├── fake-sign.svg
-│       └── chapter-2-power-digital-finance.png
-├── build/                # Build output
+│   ├── master-thesis/             # Master's degree thesis template
+│   │   ├── thesis.typ             # Entry point + configuration
+│   │   ├── template.typ           # Layout and styling
+│   │   ├── content.typ            # Thesis chapters content
+│   │   ├── bibliography.bib       # Bibliography database (BibTeX)
+│   │   └── resources/             # Image resources
+│   │       ├── its-logo.png
+│   │       ├── its-thesis-cover-without-logo.svg
+│   │       ├── its-thesis-cover-without-logo-2.svg
+│   │       ├── its-thesis-validation.png
+│   │       ├── fake-sign.svg
+│   │       └── chapter-2-power-digital-finance.png
+│   │
+│   └── undergraduate-thesis/      # Undergraduate thesis (Tugas Akhir) template
+│       ├── thesis.typ             # Entry point + configuration
+│       ├── template.typ           # Layout and styling
+│       ├── content.typ            # Thesis chapters content
+│       ├── bibliography.bib       # Bibliography database (BibTeX)
+│       └── resources/             # Image resources
+│           ├── its-logo.png
+│           ├── its-thesis-cover-without-logo.svg
+│           ├── its-thesis-cover-without-logo-2.svg
+│           ├── fake-sign.svg
+│           └── chapter-2-power-digital-finance.png
+│
+├── build/                # Build output directory
 │   └── thesis.pdf
 ├── Makefile              # Build automation
 └── LICENSE
@@ -84,7 +111,12 @@ typst watch src/thesis.typ build/thesis.pdf
 
 ## Customization
 
-To customize your thesis information, edit the configuration variables at the top of [`src/thesis.typ`](src/thesis.typ). All metadata is defined as plain Typst variables — no separate `yaml` file needed.
+Each thesis type has its own independent configuration. Edit the variables at the top of the respective `thesis.typ` file:
+
+- **Master's**: [`src/master-thesis/thesis.typ`](src/master-thesis/thesis.typ)
+- **Undergraduate**: [`src/undergraduate-thesis/thesis.typ`](src/undergraduate-thesis/thesis.typ)
+
+All metadata is defined as plain Typst variables — no separate `yaml` file needed.
 
 ### Basic Information
 
@@ -96,8 +128,8 @@ To customize your thesis information, edit the configuration variables at the to
 
 // --- Thesis Titles ---
 #let title = (
-  id: "Tesis Mahasiswa Departemen ... (dalam Bahasa Indonesia)",
-  en: "Master Student Thesis of the Department ... (in English)",
+  id: "Judul Tesis/Tugas Akhir ... (dalam Bahasa Indonesia)",
+  en: "Thesis/Final Project Title ... (in English)",
 )
 ```
 
@@ -123,17 +155,30 @@ Each person entry includes a `sign` field pointing to their signature image (SVG
 #let chief = (name: "Nama Kepala Departemen", nip: "20xxxxxxxx", sign: "resources/fake-sign.svg")
 ```
 
-### Dates & Academic Program
+### Dates
 
 ```typst
-// --- Dates ---
+// --- Dates (Master's) ---
 #let dates = (
   writing: "27 Juni 2024",
   exam: (day: "Rabu", date: "10 Juli 2024", place: "Ruang 217B"),
   graduationPeriod: "September 2024",
 )
 
-// --- Academic Program ---
+// --- Dates (Undergraduate) ---
+#let dates = (
+  writing: "27 Juni 2024",
+  exam: (day: "Rabu", date: "10 Juli 2024", place: "Ruang 217B"),
+  writingPeriod: "September 2024",
+)
+```
+
+### Academic Program
+
+**Master's** uses a single `program` dictionary with additional fields for concentration and course class:
+
+```typst
+// --- Master's ---
 #let program = (
   type: "Program Magister",
   title: "Magister Komputer (M.Kom.)",
@@ -149,13 +194,43 @@ Each person entry includes a `sign` field pointing to their signature image (SVG
 )
 ```
 
-### Essay Code & Resource Paths
+**Undergraduate** has separate `program` (Indonesian) and `program-en` (English) dictionaries:
 
 ```typst
-// --- Essay Code ---
+// --- Undergraduate (Indonesian) ---
+#let program = (
+  title: "Sarjana Komputer (S.Kom.)",
+  degree: "S1",
+  concentration: "Teknik Informatika",
+  department: "Departemen Teknik Informatika",
+  faculty: "Fakultas Teknologi Elektro dan Informatika Cerdas",
+  university: "Institut Teknologi Sepuluh Nopember",
+  city: "Surabaya",
+  year: 2026,
+)
+
+// --- Undergraduate (English) ---
+#let program-en = (
+  title: "Bachelor of Computer Science (B.Comp.Sc.)",
+  degree: "S1",
+  concentration: "Informatics Engineering",
+  department: "Department of Informatics Engineering",
+  faculty: "Faculty of Intelligent Electrical and Informatics Technology",
+  university: "Sepuluh Nopember Institute of Technology",
+  city: "Surabaya",
+  year: 2026,
+)
+```
+
+### Essay Code & Resource Paths
+
+**Master's** uses a plain string for the essay code and includes a validation background image:
+
+```typst
+// --- Essay Code (Master's) ---
 #let essay = "Tesis Sidang Akhir - EF235401"
 
-// --- Resource Paths (relative to src/) ---
+// --- Resource Paths (Master's) ---
 #let paths = (
   logo: "resources/its-logo.png",
   coverBackground: "resources/its-thesis-cover-without-logo.svg",
@@ -165,15 +240,31 @@ Each person entry includes a `sign` field pointing to their signature image (SVG
 )
 ```
 
+**Undergraduate** uses a dictionary for essay code with both Indonesian and English labels:
+
+```typst
+// --- Essay Code (Undergraduate) ---
+#let essay = (
+  id: "Tugas Akhir - EF234801",
+  en: "Final Project - EF234801",
+)
+
+// --- Resource Paths (Undergraduate) ---
+#let paths = (
+  logo: "resources/its-logo.png",
+  coverBackground: "resources/its-thesis-cover-without-logo.svg",
+  coverBackgroundSecondary: "resources/its-thesis-cover-without-logo-2.svg",
+  bibliography: "bibliography.bib",
+)
+```
+
 ### Template Flags
 
-The template is applied at the bottom of [`src/thesis.typ`](src/thesis.typ):
+**Master's** — the template is applied at the bottom of [`src/master-thesis/thesis.typ`](src/master-thesis/thesis.typ):
 
 ```typst
 #show: thesis.with(
-  author: author,
-  nrp: nrp,
-  sign: sign,
+  author: author, nrp: nrp, sign: sign,
   supervisors: supervisors,
   examiners: examiners,
   chief: chief,
@@ -190,9 +281,26 @@ The template is applied at the bottom of [`src/thesis.typ`](src/thesis.typ):
 - **`proposal: true`** — renders the *Proposal Tesis* approval page (for seminar).
 - **`proposal: false`** — renders the final *Lembar Pengesahan Tesis* page followed by the *Pernyataan Orisinalitas* statement.
 
+**Undergraduate** — the template is applied at the bottom of [`src/undergraduate-thesis/thesis.typ`](src/undergraduate-thesis/thesis.typ) and includes `program-en`:
+
+```typst
+#show: thesis.with(
+  author: author, nrp: nrp, sign: sign,
+  supervisors: supervisors,
+  examiners: examiners,
+  chief: chief,
+  dates: dates,
+  program: program,
+  program-en: program-en,
+  essay: essay,
+  title: title,
+  paths: paths,
+)
+```
+
 ### Helper: Horizontal Tab Alignment
 
-The template provides a `tab-to` helper for aligning text labels across multiple lines (used in abstracts and approval pages):
+Both templates provide a `tab-to` helper for aligning text labels across multiple lines (used in abstracts and approval pages):
 
 ```typst
 #let tab-to(target-width, body) = context {
@@ -210,6 +318,17 @@ Use it to create aligned label–value pairs:
 ```typst
 Nama#tab-to(3.5cm, [Nama]): #author \
 NRP#tab-to(3.5cm, [NRP]): #nrp
+```
+
+## Makefile Targets
+
+```bash
+make master        # Build master's thesis PDF
+make undergraduate # Build undergraduate thesis PDF
+make watch-master  # Watch mode for master's thesis (live preview)
+make watch-undergraduate # Watch mode for undergraduate thesis (live preview)
+make clean         # Remove build artifacts
+make help          # Show available targets
 ```
 
 ## License
