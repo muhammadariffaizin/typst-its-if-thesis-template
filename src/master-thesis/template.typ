@@ -410,8 +410,10 @@
     set align(center)
     set text(size: 14pt, weight: "bold")
     block[
-      #text[BAB #counter(heading).display("1")]
-      \
+      #if it.numbering != none [
+        BAB #counter(heading.where(level: 1)).display("1")
+        \
+      ]
       #text[#upper(it.body)]
     ]
     v(1.5em)
