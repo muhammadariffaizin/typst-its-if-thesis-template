@@ -112,6 +112,11 @@
   proposal: true, // true or false
 )
 
+// Indonesian citation formatting replace "et al." with "dkk"
+#show "et al.": "dkk"
+// Replace " & " with " dan " for Indonesian convention
+#show " & ": " dan "
+
 //=============================================================================
 // 1. DEDICATION
 //=============================================================================
@@ -286,7 +291,7 @@ Write your English abstract here. #lorem(250)
   "bibliography.bib",
   title: none,
   style: "apa",
-  full: true,
+  full: false,
 )
 
 #pagebreak()

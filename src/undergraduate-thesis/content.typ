@@ -75,11 +75,12 @@ Penjelasan mengenai teori dasar yang digunakan dalam penelitian.
 == Penelitian Terkait
 
 #lorem(100)
+@figure1
 
 #figure(
   image("resources/chapter-2-power-digital-finance.png", width: 80%),
   caption: [Gambar yang menunjukkan ilustrasi terkait penelitian],
-)
+) <figure1>
 
 // ---------------------------------------------------------------------------
 // CHAPTER 3 — METODOLOGI PENELITIAN
