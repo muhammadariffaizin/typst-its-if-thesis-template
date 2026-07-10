@@ -116,6 +116,7 @@ Pada bab ini dijelaskan mengenai metodologi penelitian yang digunakan.
 #lorem(100) @table1
 
 #figure(
+  kind: table,
   table(
     columns: (auto, auto, auto),
     [No.], [Parameter], [Nilai],

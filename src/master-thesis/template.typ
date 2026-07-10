@@ -403,7 +403,12 @@
   set par(justify: true, leading: 0.85em, spacing: 0.85em)
   set heading(numbering: "1.")
   set list(indent: 2em, spacing: 0.3em)
+  set figure(kind: image, supplement: [Gambar])
 
+  // Force correct Indonesian supplement for table figures
+  show figure.where(kind: table): set figure(supplement: [Tabel])
+
+  // The rendering show rules for figures (below) already use "Tabel" / "Gambar"
   // ---- 2. Heading show-rules ----
   show heading.where(level: 1): it => {
     pagebreak(weak: true)
