@@ -427,10 +427,10 @@
   set par(justify: true, leading: 0.85em, spacing: 0.85em)
   set heading(numbering: "1.")
   set list(indent: 2em, spacing: 0.3em)
-  set figure(kind: image, supplement: [Gambar])
+  set figure(kind: image, supplement: [Gambar], numbering: "1.1")
 
   // Force correct Indonesian supplement for table figures
-  show figure.where(kind: table): set figure(supplement: [Tabel])
+  show figure.where(kind: table): set figure(supplement: [Tabel], numbering: "1.1")
 
   // The rendering show rules for figures (below) already use "Tabel" / "Gambar"
   // ---- 2. Heading show-rules ----
@@ -438,6 +438,12 @@
     pagebreak(weak: true)
     set align(center)
     set text(size: 14pt, weight: "bold")
+    // Step figure counters only for numbered chapter headings (BAB), not for
+    // front-matter headings like DAFTAR ISI / DAFTAR TABEL / DAFTAR GAMBAR
+    if it.numbering != none {
+      counter(figure.where(kind: image)).step(level: 1)
+      counter(figure.where(kind: table)).step(level: 1)
+    }
     block[
       #if it.numbering != none [
         BAB #counter(heading.where(level: 1)).display("1")
