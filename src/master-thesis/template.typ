@@ -403,10 +403,41 @@
   set par(justify: true, leading: 0.85em, spacing: 0.85em)
   set heading(numbering: "1.")
   set list(indent: 2em, spacing: 0.3em)
-  set figure(kind: image, supplement: [Gambar], numbering: "1.1")
+  set figure(kind: image, supplement: [Gambar], numbering: "1")
 
   // Force correct Indonesian supplement for table figures
-  show figure.where(kind: table): set figure(supplement: [Tabel], numbering: "1.1")
+  show figure.where(kind: table): set figure(supplement: [Tabel], numbering: "1")
+
+  // ---- Override outline entry for figures ----
+  // Show "Gambar 2.1" / "Tabel 3.1" in DAFTAR GAMBAR / DAFTAR TABEL
+  show outline.entry: it => {
+    let el = it.element
+    if el != none and el.func() == figure {
+      context {
+        let loc = el.location()
+        let h = counter(heading.where(level: 1)).at(loc).at(0)
+        let f = el.counter.at(loc).at(0)
+        let supp = if el.kind == table { [Tabel] } else { [Gambar] }
+        link(loc, it.indented([#supp #h.#f], it.inner()))
+      }
+    } else {
+      link(el.location(), it.indented(it.prefix(), it.inner()))
+    }
+  }
+
+  // ---- In-text reference override for figures ----
+  // Show @figure1 / @table1 as "Gambar 2.1" / "Tabel 3.1" with per-chapter numbering
+  show ref: it => {
+    let el = it.element
+    if el == none or el.func() != figure { return it }
+    context {
+      let loc = el.location()
+      let h = counter(heading.where(level: 1)).at(loc).at(0)
+      let f = el.counter.at(loc).at(0)
+      let supp = if el.kind == table { [Tabel] } else { [Gambar] }
+      link(loc, [#supp #h.#f])
+    }
+  }
 
   // The rendering show rules for figures (below) already use "Tabel" / "Gambar"
   // ---- 2. Heading show-rules ----
@@ -414,11 +445,12 @@
     pagebreak(weak: true)
     set align(center)
     set text(size: 14pt, weight: "bold")
-    // Step figure counters only for numbered chapter headings (BAB), not for
-    // front-matter headings like DAFTAR ISI / DAFTAR TABEL / DAFTAR GAMBAR
+    // Reset figure counters to 0 at the start of each BAB chapter so that
+    // figure numbering restarts per chapter. Only for numbered chapter
+    // headings, not for front-matter headings like DAFTAR ISI / DAFTAR TABEL.
     if it.numbering != none {
-      counter(figure.where(kind: image)).step(level: 1)
-      counter(figure.where(kind: table)).step(level: 1)
+      counter(figure.where(kind: image)).update(0)
+      counter(figure.where(kind: table)).update(0)
     }
     block[
       #if it.numbering != none [
@@ -446,7 +478,7 @@
   //? Table
   show figure.where(kind: table): it => context [
     #set text(size: 10pt)
-    Tabel #counter(heading.where(level: 1)).display()#it.counter.display(it.numbering). #it.caption.body
+    Tabel #counter(heading.where(level: 1)).display("1").#it.counter.display(it.numbering). #it.caption.body
     #it.body
   ]
 
@@ -454,7 +486,7 @@
   show figure.where(kind: image): it => context [
     #set text(size: 10pt)
     #it.body
-    Gambar #counter(heading.where(level: 1)).display()#it.counter.display(it.numbering). #it.caption.body
+    Gambar #counter(heading.where(level: 1)).display("1").#it.counter.display(it.numbering). #it.caption.body
   ]
 
   // ---- 4. COVER PAGE 1 (with background) ----
