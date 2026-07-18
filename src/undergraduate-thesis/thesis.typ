@@ -41,15 +41,15 @@
 
 // --- Dates ---
 #let dates = (
-  writing: "27 Juni 2024",
-  exam: (day: "Rabu", date: "10 Juli 2024", place: "Ruang 217B"),
-  writingPeriod: "September 2024",
+  writing: "27 Juni 2026",
+  exam: (day: "Rabu", date: "10 Juli 2026", place: "Ruang 217B"),
+  writingPeriod: "September 2026",
 )
 
 // --- Academic Program ---
 #let program = (
   title: "Sarjana Komputer (S.Kom.)",
-  degree: "S1",
+  degree: "S-1",
   concentration: "Teknik Informatika",
   department: "Departemen Teknik Informatika",
   faculty: "Fakultas Teknologi Elektro dan Informatika Cerdas",
@@ -62,10 +62,10 @@
 #let program-en = (
   title: "Bachelor of Computer Science (B.Comp.Sc.)",
   degree: "S1",
-  concentration: "Informatics Engineering",
-  department: "Department of Informatics Engineering",
+  concentration: "Informatics",
+  department: "Department of Informatics",
   faculty: "Faculty of Intelligent Electrical and Informatics Technology",
-  university: "Sepuluh Nopember Institute of Technology",
+  university: "Institut Teknologi Sepuluh Nopember",
   city: "Surabaya",
   year: 2026,
 )
@@ -77,6 +77,7 @@
 )
 
 // --- Thesis Titles ---
+// Judul tugas akhir ditulis singkat, jelas, dan menggambarkan tema pokok
 #let title = (
   id: "Tugas Akhir Mahasiswa Departemen Teknik Informatika Institut Teknologi Sepuluh Nopember (dalam Bahasa Indonesia)",
   en: "Undergraduate Student Thesis of the Department of Informatics, Institut Teknologi Sepuluh Nopember (in English)",
@@ -149,54 +150,7 @@
 #pagebreak()
 
 //=============================================================================
-// 2. FOREWORD  (Kata Pengantar)
-//=============================================================================
-
-// Typst 0.13+ removed par(indent: ...)
-// Use explicit first-line indentation if needed: #indent[content]
-
-#align(center, text(size: 13pt, weight: "bold")[#upper("KATA PENGANTAR")])
-
-#v(1.5em)
-
-Puji dan syukur ke hadirat Allah SWT atas segala limpahan nikmat dan
-rahmat-Nya sehingga penulis dapat menyelesaikan penelitian tesis dengan
-judul yang telah ditentukan.
-
-Tujuan dari penulisan tesis ini adalah untuk melengkapi salah satu syarat
-dalam mencapai derajat Magister Komputer (M.Kom.) di Departemen Teknik
-Informatika, Fakultas Teknologi Elektro dan Informatika Cerdas (FT-EIC),
-Institut Teknologi Sepuluh Nopember (ITS), Surabaya, Indonesia.
-
-Dalam penyusunan tesis ini tidak terlepas dari pihak-pihak yang memberikan
-dukungan baik secara materiil maupun non-materiil.
-
-+ #lorem(30)
-+ #lorem(30)
-+ #lorem(30)
-+ #lorem(30)
-
-Semoga Allah SWT selalu melindungi dan memberikan rahmat-Nya.
-
-Penulis sangat menyadari bahwa penulisan ini tidaklah luput dari kesalahan
-dan kekurangan.
-
-Akhir kata, penulis mengharapkan semoga hasil dari penulisan dan penelitian
-ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
-
-#v(2em)
-#align(right)[
-  Surabaya, tanggal bulan tahun \
-  \
-  \
-  \
-  Penulis
-]
-
-#pagebreak()
-
-//=============================================================================
-// 3. INDONESIAN ABSTRACT  (Abstrak)
+// 2. INDONESIAN ABSTRACT  (Abstrak)
 //=============================================================================
 
 // Typst 0.13+ doesn't support par(indent: ...)
@@ -230,7 +184,7 @@ Tulis abstrak bahasa Indonesia di sini. #lorem(220)
 #pagebreak()
 
 //=============================================================================
-// 4. ENGLISH ABSTRACT
+// 3. ENGLISH ABSTRACT
 //=============================================================================
 
 #align(center, text(size: 12pt, weight: "bold")[ABSTRACT])
@@ -256,6 +210,49 @@ Write your English abstract here. #lorem(220)
 #v(1em)
 #par(first-line-indent: 0pt)[
   #text(weight: "bold")[Keywords:] First, Second, Third, Fourth, Fifth.
+]
+
+#pagebreak()
+
+//=============================================================================
+// 4. FOREWORD  (Kata Pengantar)
+//=============================================================================
+
+// Typst 0.13+ removed par(indent: ...)
+// Use explicit first-line indentation if needed: #indent[content]
+
+#align(center, text(size: 13pt, weight: "bold")[#upper("KATA PENGANTAR")])
+
+#v(1.5em)
+
+*Assalamu'alaikum warahmatullahi wabarakatuh.*
+
+Puji dan syukur ke hadirat Allah SWT atas segala limpahan nikmat dan
+rahmat-Nya sehingga penulis dapat menyelesaikan Tugas Akhir ini dengan judul "#title.id" sebagai salah satu syarat
+untuk memperoleh gelar #program.title di #program.department, #program.university.
+
+Penulisan Tugas Akhir ini tidak akan terlaksana dengan baik tanpa bimbingan, dukungan, dan motivasi dari berbagai pihak. Oleh karena itu, penulis ingin menyampaikan ucapan terima kasih yang sebesar-besarnya kepada:
+
++ *Bapak/Ibu Dosen Pembimbing 1* dan *Bapak/Ibu Dosen Pembimbing 2* atas bimbingan, saran, serta kesabaran dalam mengarahkan penulis selama proses penyusunan Tugas Akhir ini.
++ *Bapak/Ibu Penguji Sidang* yang telah memberikan masukan, kritik, dan saran konstruktif demi perbaikan karya ini.
++ Seluruh *partisipan penguji aplikasi* yang telah meluangkan waktu dan memberikan feedback berharga untuk pengembangan sistem ini.
++ Keluarga, teman-teman, dan rekan-rekan seperjuangan yang selalu memberikan dukungan moral dan semangat kepada penulis.
++ #lorem(30)
+
+Penulis sangat menyadari bahwa penulisan Tugas Akhir ini masih jauh dari sempurna, oleh karena itu penulis mengharapkan kritik dan saran yang membangun untuk perbaikan di masa mendatang. Semoga hasil penelitian ini dapat bermanfaat bagi perkembangan ilmu pengetahuan dan teknologi.
+
+Akhir kata, penulis mengharapkan semoga hasil dari penulisan dan penelitian
+ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
+
+*Wassalamu'alaikum warahmatullahi wabarakatuh.*
+
+#v(2em)
+#align(right)[
+  Surabaya, #dates.writingPeriod \
+  \
+  \
+  \
+  Penulis
 ]
 
 #pagebreak()

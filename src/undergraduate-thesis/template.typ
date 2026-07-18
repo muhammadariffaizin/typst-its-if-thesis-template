@@ -79,22 +79,29 @@
     ]
   ]
 
-  place(left + top, dx: 3cm, dy: 15cm)[
-    #set text(size: 14pt, weight: "bold")
-    #upper(author) \
+  place(left + top, dx: 3cm, dy: 14cm)[
+    #set text(size: 14pt)
+    #text(weight: "bold")[#upper(author)] \
     #upper(nrp)
   ]
 
-  place(left + top, dx: 3cm, dy: 18cm)[
-    #set text(size: 12pt, weight: "bold")
+  place(left + top, dx: 3cm, dy: 16cm)[
+    #set text(size: 14pt)
     Dosen Pembimbing \
-    #supervisors.at(0).name \
-    #supervisors.at(1).name
+    #text(weight: "bold")[#supervisors.at(0).name] \
+    NIP #supervisors.at(0).nip \
+    #if supervisors.at(1) != none [
+      \
+      Dosen Ko-Pembimbing \
+      #text(weight: "bold")[#supervisors.at(1).name] \
+      NIP #supervisors.at(1).nip
+    ]
   ]
 
-  place(left + top, dx: 3cm, dy: 21cm)[
-    #set text(size: 11pt, weight: "bold")
-    Program Studi #program.concentration\
+  place(left + top, dx: 3cm, dy: 22.5cm)[
+    #set text(size: 14pt, weight: "bold")
+    Program Studi #program.degree #program.concentration \
+    #set text(size: 12pt, weight: "regular")
     #program.department \
     #program.faculty \
     #program.university \
@@ -132,21 +139,28 @@
   ]
 
   place(left + top, dx: 3cm, dy: 15cm)[
-    #set text(size: 14pt, weight: "bold")
-    #upper(author) \
+    #set text(size: 14pt)
+    #text(weight: "bold")[#upper(author)] \
     #upper(nrp)
   ]
   
-  place(left + top, dx: 3cm, dy: 18cm)[
-    #set text(size: 12pt)
+  place(left + top, dx: 3cm, dy: 17cm)[
+    #set text(size: 14pt)
     Dosen Pembimbing \
-    #supervisors.at(0).name \
-    #supervisors.at(1).name
+    #text(weight: "bold")[#supervisors.at(0).name] \
+    NIP #supervisors.at(0).nip \
+    #if supervisors.at(1) != none [
+      \
+      Dosen Ko-Pembimbing \
+      #text(weight: "bold")[#supervisors.at(1).name] \
+      NIP #supervisors.at(1).nip
+    ]
   ]
 
-  place(left + top, dx: 3cm, dy: 22.5cm)[
-    #set text(size: 11pt)
-    Program Studi #program.concentration \
+  place(left + top, dx: 3cm, dy: 23.5cm)[
+    #set text(size: 14pt, weight: "bold")
+    Program Studi #program.degree #program.concentration \
+    #set text(size: 12pt, weight: "regular")
     #program.department \
     #program.faculty \
     #program.university \
@@ -184,21 +198,28 @@
   ]
 
   place(left + top, dx: 3cm, dy: 15cm)[
-    #set text(size: 14pt, weight: "bold")
-    #upper(author) \
+    #set text(size: 14pt)
+    #text(weight: "bold")[#upper(author)] \
     #upper(nrp)
   ]
   
   place(left + top, dx: 3cm, dy: 18cm)[
     #set text(size: 12pt)
     Advisor \
-    #supervisors.at(0).name \
-    #supervisors.at(1).name
+    #text(weight: "bold")[#supervisors.at(0).name] \
+    NIP #supervisors.at(0).nip \
+    #if supervisors.at(1) != none [
+      \
+      Co-Advisor \
+      #text(weight: "bold")[#supervisors.at(1).name] \
+      NIP #supervisors.at(1).nip
+    ]
   ]
 
-  place(left + top, dx: 3cm, dy: 22.5cm)[
-    #set text(size: 11pt)
-    Study Program #program.concentration \
+  place(left + top, dx: 3cm, dy: 23.5cm)[
+    #set text(size: 14pt, weight: "bold")
+    Undergraduate Study Program of #program.concentration \
+    #set text(size: 12pt, weight: "regular")
     #program.department \
     #program.faculty \
     #program.university \
@@ -208,7 +229,7 @@
 }
 
 //=============================================================================
-// PROPOSAL APPROVAL
+// PROPOSAL APPROVAL - ID
 //=============================================================================
 
 #let render-proposal-approval(title, author, nrp, dates, examiners, supervisors) = {
@@ -271,7 +292,7 @@
 }
 
 //=============================================================================
-// THESIS APPROVAL
+// THESIS APPROVAL - ID
 //=============================================================================
 
 #let render-thesis-approval(title, program, author, nrp, sign, dates, supervisors, examiners, chief) = {
@@ -287,8 +308,8 @@
     \
     #text(upper("TUGAS AKHIR"), weight: "bold") \
     Diajukan untuk memenuhi salah satu syarat \
-    memperoleh gelar #program.title \
-    pada Program Studi #program.degree #program.concentration \
+    memperoleh gelar #program.title pada \
+    Program Studi #program.degree #program.concentration \
     #program.department \
     #program.faculty \
     #program.university
@@ -306,8 +327,8 @@
     columns: (auto, 2fr, 1fr),
     gutter: 3em,
     align: left,
-    [1.], [#supervisors.at(0).name], [Pembimbing 1],
-    [2.], [#supervisors.at(1).name], [Pembimbing 2],
+    [1.], [#supervisors.at(0).name], [Pembimbing],
+    [2.], [#supervisors.at(1).name], [Ko-pembimbing],
     [3.], [#examiners.at(0).name], [Penguji 1],
     [4.], [#examiners.at(1).name], [Penguji 2],
     [5.], [#examiners.at(2).name], [Penguji 3],
@@ -323,7 +344,59 @@
 }
 
 //=============================================================================
-// ORIGINALITY STATEMENT
+// THESIS APPROVAL - EN
+//=============================================================================
+
+#let render-thesis-approval-en(title, program, author, nrp, sign, dates, supervisors, examiners, chief) = {
+  set page(margin: standard-margin)
+
+  align(center)[
+    #set text(size: 14pt)
+    #set par(leading: 1em)
+    #text(upper("Approval Sheet"), weight: "bold") \
+
+    #v(1em)
+    #text(upper(title.en), weight: "bold", hyphenate: false) \
+    \
+    #text(upper("FINAL PROJECT"), weight: "bold") \
+    Submitted to fulfill one of the requirements \
+    for obtaining a #program.title degree at \
+    Undergraduate Study Program of #program.concentration \
+    #program.department \
+    #program.faculty \
+    #program.university
+    #v(1em)
+    By: #text(upper(author), weight: "bold") \
+    NRP: #nrp
+
+    #v(1em)
+    Approved by Final Project Examiner Team:
+    #v(1em)
+  ]
+
+  set par(leading: 0.6em)
+  grid(
+    columns: (auto, 2fr, 1fr),
+    gutter: 3em,
+    align: left,
+    [1.], [#supervisors.at(0).name], [Advisor],
+    [2.], [#supervisors.at(1).name], [Co-Advisor],
+    [3.], [#examiners.at(0).name], [Examiner 1],
+    [4.], [#examiners.at(1).name], [Examiner 2],
+    [5.], [#examiners.at(2).name], [Examiner 3],
+  )
+
+  v(1.5em)
+
+  align(center)[
+    #set text(weight: "bold")
+    #upper(program.city) \
+    #dates.writingPeriod
+  ]
+}
+
+//=============================================================================
+// ORIGINALITY STATEMENT - ID
 //=============================================================================
 
 #let render-originality(author, nrp, sign, supervisors, program, title, dates) = {
@@ -344,10 +417,10 @@
 
   v(0.5em)
   [
-    Nama Mahasiswa (NRP) #tab-to(4.5cm, [Nama Mahasiswa (NRP)]): #author (#nrp) \
-    Program Studi #tab-to(4.5cm, [Program Studi]): #program.concentration \
-    Dosen Pembimbing 1 (NIP) #tab-to(4.5cm, [Dosen Pembimbing 1 (NIP)]): #supervisors.at(0).name (#supervisors.at(0).nip) \
-    Dosen Pembimbing 2 (NIP) #tab-to(4.5cm, [Dosen Pembimbing 2 (NIP)]): #supervisors.at(1).name (#supervisors.at(1).nip) \
+    Nama Mahasiswa / NRP #tab-to(4.6cm, [Nama Mahasiswa / NRP]): #author / #nrp \
+    Program Studi #tab-to(4.6cm, [Program Studi]): #program.degree #program.concentration \
+    Dosen Pembimbing / NIP #tab-to(4.6cm, [Dosen Pembimbing / NIP]): #supervisors.at(0).name / #supervisors.at(0).nip \
+    Dosen Ko-pembimbing / NIP #tab-to(4.6cm, [Dosen Ko-pembimbing / NIP]): #supervisors.at(1).name / #supervisors.at(1).nip \
   ]
 
   v(0.5em)
@@ -372,6 +445,7 @@
       #set align(center)
       #set par(leading: 0.6em)
       #program.city, #dates.writing \
+      Mahasiswa \
       #image(sign, width: 3cm)
       #author \
       NRP: #nrp
@@ -386,11 +460,81 @@
     columns: (1fr, 1fr),
     gutter: 1cm,
     align: center,
-    [#supervisors.at(0).name],
-    [#supervisors.at(1).name],
+    [Dosen Pembimbing],
+    [Dosen Ko-pembimbing],
     [#image(supervisors.at(0).sign, width: 3cm)], [#image(supervisors.at(1).sign, width: 3cm)],
-    [Dosen Pembimbing 1 \ NIP: #supervisors.at(0).nip],
-    [Dosen Pembimbing 2 \ NIP: #supervisors.at(1).nip],
+    [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip],
+    [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip],
+  )
+}
+
+//=============================================================================
+// ORIGINALITY STATEMENT - EN
+//=============================================================================
+
+#let render-originality-en(author, nrp, sign, supervisors, program, title, dates) = {
+  set page(margin: (
+    top: 3.0cm,
+    bottom: 2.5cm,
+    left: 3.0cm,
+    right: 2.0cm,
+  ))
+  set text(size: 11pt)
+
+  align(center, text(size: 13pt, weight: "bold")[
+    #upper("STATEMENT OF ORIGINALITY")
+  ])
+
+  v(1.5em)
+  [The undersigned,]
+
+  v(0.5em)
+  [
+    Student Name / Student ID #tab-to(4.6cm, [Student Name / Student ID]): #author / #nrp \
+    Study Program #tab-to(4.6cm, [Study Program]): #program.degree #program.concentration \
+    Advisor / NIP #tab-to(4.6cm, [Advisor / NIP]): #supervisors.at(0).name / #supervisors.at(0).nip \
+    Co-advisor / NIP #tab-to(4.6cm, [Co-advisor / NIP]): #supervisors.at(1).name / #supervisors.at(1).nip \
+  ]
+
+  v(0.5em)
+  [
+    hereby declares that the Final Project entitled
+    "#title.id" is my own work, is original, and was written in accordance with the rules of scientific writing.
+  ]
+
+  v(0.5em)
+  [
+    If any discrepancies with this statement are found in the future, I am willing to accept sanctions in accordance with the provisions of #program.university (ITS).
+  ]
+
+  v(2em)
+
+  align(center)[
+    #block()[
+      #set text(size: 12pt)
+      #set align(center)
+      #set par(leading: 0.6em)
+      #program.city, #dates.writing \
+      Student \
+      #image(sign, width: 3cm)
+      #author \
+      NRP: #nrp
+    ]
+  ]
+
+  v(1em)
+
+  align(center)[Acknowledged,]
+
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 1cm,
+    align: center,
+    [Advisor],
+    [Co-advisor],
+    [#image(supervisors.at(0).sign, width: 3cm)], [#image(supervisors.at(1).sign, width: 3cm)],
+    [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip],
+    [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip],
   )
 }
 
@@ -538,9 +682,13 @@
     // ---- 8. THESIS APPROVAL ----
     render-thesis-approval(title, program, author, nrp, sign, dates, supervisors, examiners, chief)
     pagebreak()
+    render-thesis-approval-en(title, program-en, author, nrp, sign, dates, supervisors, examiners, chief)
+    pagebreak()
 
     // ---- 9. ORIGINALITY STATEMENT ----
     render-originality(author, nrp, sign, supervisors, program, title, dates)
+    pagebreak()
+    render-originality-en(author, nrp, sign, supervisors, program-en, title, dates)
     pagebreak()
   }
 
