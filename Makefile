@@ -5,16 +5,16 @@
 all: master
 
 master:
-	@mkdir -p build
+	-@mkdir build
 	@echo "Building Master's Thesis PDF..."
-	typst compile src/master-thesis/thesis.typ build/thesis.pdf
-	@echo "Output: build/thesis.pdf"
+	typst compile src/master-thesis/thesis.typ build/master-thesis.pdf
+	@echo "Output: build/master-thesis.pdf"
 
 undergraduate:
-	@mkdir -p build
+	-@mkdir build
 	@echo "Building Undergraduate Thesis PDF..."
-	typst compile src/undergraduate-thesis/thesis.typ build/thesis.pdf
-	@echo "Output: build/thesis.pdf"
+	typst compile src/undergraduate-thesis/thesis.typ build/undergraduate-thesis.pdf
+	@echo "Output: build/undergraduate-thesis.pdf"
 
 clean:
 	@echo "Cleaning build artifacts..."
@@ -23,10 +23,10 @@ clean:
 
 # Preview mode (for live preview)
 watch-master:
-	typst watch src/master-thesis/thesis.typ build/thesis.pdf
+	typst watch src/master-thesis/thesis.typ build/master-thesis.pdf
 
 watch-undergraduate:
-	typst watch src/undergraduate-thesis/thesis.typ build/thesis.pdf
+	typst watch src/undergraduate-thesis/thesis.typ build/undergraduate-thesis.pdf
 
 # Help
 help:
