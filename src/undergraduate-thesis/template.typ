@@ -780,9 +780,19 @@ align(right)[
   pagebreak()
 
   // ---- 5. BLANK PAGE ----
-  set page(margin: standard-margin, background: none, numbering: none)
+  // start numbering from here
+  counter(page).update(1)
+  set page(margin: standard-margin, background: none, numbering: "i")
   set text(fill: black, font: body-font)
-
+  set page(
+    footer: context [
+      #let p = counter(page).get().first()
+      #align(
+        if calc.rem(p, 2) == 1 { right } else { left },
+        text(size: 11pt, font: body-font)[#counter(page).display()]
+      )
+    ]
+  )
 
   if (proposal) {
     // ---- 7. PROPOSAL APPROVAL ----
@@ -813,8 +823,6 @@ align(right)[
   set par(first-line-indent: (amount: 1.5em, all: true))
 
   // ---- 12. Roman numbering for preliminary pages ----
-  set page(numbering: "i")
-
   // ---- 13. User content (dedication, foreword, abstracts,    ----
   //         TOC, chapters, bibliography, appendices, biography).
   doc
