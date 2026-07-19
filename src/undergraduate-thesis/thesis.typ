@@ -324,25 +324,67 @@ ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
 
 #heading(upper("Lampiran A. Instrumen Pengujian"), numbering: none)
 
-Isi lampiran A di sini ...
+Isi lampiran A di sini #lorem(100)
 
 #pagebreak()
 
 #heading(upper("Lampiran B. Rincian Kasus Uji"), numbering: none)
 
-#table(
-  columns: (auto, auto, auto),
-  [No.], [Kasus], [Hasil],
-  [1], [Kasus A], [Lulus],
-  [2], [Kasus B], [Lulus],
-  [3], [Kasus C], [Gagal],
-)
+Ini lampiran B di sini #lorem(100) @table2
+
+#figure(
+  kind: table,
+  table(
+    columns: (auto, auto, auto),
+    align: (center, left, center),
+    [No.], [Kasus], [Hasil],
+    [1], [Kasus A #lorem(20)], [Lulus],
+    [2], [Kasus B #lorem(20)], [Lulus],
+    [3], [Kasus C #lorem(20)], [Gagal],
+  ),
+  caption: [Tabel contoh rincian kasus uji],
+) <table2>
 
 #pagebreak()
 
 #heading(upper("Lampiran C. Penjelasan Hasil"), numbering: none)
 
-Isi lampiran C di sini ...
+Isi lampiran C disini. (This next paragraph is come from @fiatshamir1987howtoprove as an example) Before center starts issuing cards, it chooses and makes public modulus $n$ and pseudo random function $f$ which maps arbitrary strings to range $[0, n)$. Modulus $n$ is product of two secret primes $p$ and $q$, but unlike the RSA scheme, only center knows factorization of modulus and thus everyone can use same $n$. Function $f$ should be indistinguishable from truly random function by any polynomially bounded computation. Goldreich, Goldwasser, and Micali [1984] describe particular family of functions which is provably strong in this sense, but we believe that in practice one can use simpler and faster functions (e.g., multiple DES) without endangering security of scheme.
+
+When eligible user applies for smart card, center prepares string $I$ which contains all relevant information about user (his name, address, ID number, physical description, security clearance etc.) and about the card (expiration date, limitations on validity, etc). Since this is information verified by scheme, make it detailed and to double check its correctness. Center then performs following steps:
+
+#set list(marker: "1.")
+1. Compute values $u_j = f(I, j)$ for small values of $j$.
+2. Pick $k$ distinct values of $j$ for which $u_j$ is quadratic residue modulo $n$ and compute the smallest square root $s_j$ of $u_j$ (mod $n$).
+3. Issue smart card which contains $I$, $k$ values $s_j$, and their indices.
+
+#text(weight: "bold")[Remarks:]
+
+#set list(marker: "a.")
+a. To simplify notation in rest of this paper, we assume that first $k$ indices $j = 1, 2, ..., k$ are used.
+b. For non-perfect functions $f$, it may be advisable to randomize $I$ by concatenating it to long random string $R$ which is chosen by center, stored in card, and revealed along with $I$.
+
+In typical implementations, $k$ is between 1 and 18, but larger values of $k$ can further reduce time and communication complexities of scheme. $n$ should be at least 512 bits long. Factoring such moduli seems to be beyond reach with today's computers and algorithms, with adequate margins of safety against foreseeable developments.
+
+Center can be eliminated if each user chooses his own $n$ and publishes it in public key directory. However, this RSA-like variant makes schemes considerably less convenient.
+
+Verification devices are identical standalone devices which contain microprocessor, small memory, and I/O interface. Only information stored in them are universal modulus $n$ and function $f$. When smart card is inserted into verifier, it proves that it knows $s_1, ..., s_k$ without giving away any information about their values. Proof is based on following protocol:
+
+#set list(marker: "1.")
+1. $A$ sends $I$ to $B$.
+2. $B$ generates $u_j = f(I, j)$ for $j = 1, ..., k$.
+3. Repeat steps 3 to 6 for $i = 1, ..., t$:
+   a. $A$ picks random $r_i \in [0, n)$ and sends $z_i = r_i^2$ (mod $n$) to $B$.
+   b. $B$ sends random binary vector $(e_{i_1}, ..., e_{i_k})$ to $A$.
+   c. $A$ sends to $B$: $y_i = r_i (p r o d)_{j=1}^k s_j^{e_{i_j}}$ (mod $n$).
+   d. $B$ checks that $z_i = y_i^2 (p r o d)_{j=1}^k u_j^{e_{i_j}}$ (mod $n$).
+
+#text(weight: "bold")[Remarks:]
+
+#set list(marker: "1.")
+1. Verifier $B$ accepts $A$'s proof of identity only if all $t$ checks are successful.
+2. To decrease number of communicated bits, can hash $z_i$ by sending $B$ only first 128 bits of $f(z_i)$ in step 3. $B$ can check correctness of this value in step 6 by applying $f$ to right hand side of equation and comparing the first 128 bits of results.
+3. Can authenticate particular message $m$ (e.g., instruction to remote control system or program sent to remote computer) without having to extract new square roots by sending $B$ first 128 bits of $f(m, z_i)$ in step 3. If $B$ knows $m$, he can easily check this value in step 6. $A$ is fully protected against modifications and forgeries of his messages by pseudo random nature of $f$, but this is not real signature scheme: without participating in interaction, judge cannot later decide if message is authentic.
 
 #pagebreak()
 
@@ -352,6 +394,15 @@ Isi lampiran C di sini ...
 
 #heading("BIOGRAFI PENULIS", numbering: none)
 
-#v(1.5em)
-
-Tulis biografi penulis di sini.
+#grid(
+  columns: (1fr, 2fr), 
+  column-gutter: 1em,
+  block()[
+    #image("resources/profile-picture.jpg"),
+  ],
+  [Tulis biografi penulis di sini. #lorem(70)]
+)
+#block(
+  inset: (left: 0em, top: -1.5em),
+  lorem(50)
+)
