@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <img alt="Code Name" src="https://img.shields.io/badge/code-ITS--IF--THESIS--TYPST%200.1.0-blue">
+  <img alt="Code Name" src="https://img.shields.io/badge/code-ITS--IF--THESIS--TYPST%200.1.1-blue">
   <img alt="Built With" src="https://img.shields.io/badge/built%20with-Typst-239DAD">
   <img alt="License" src="https://img.shields.io/badge/license-GPLv3.0-green">
 </p>
@@ -71,16 +71,16 @@ official thesis guidance for both levels.
 # ── Master's Thesis ──────────────────────────────────
 make master
 # or manually
-typst compile src/master-thesis/thesis.typ build/thesis.pdf
+typst compile src/master-thesis/thesis.typ build/master-thesis.pdf
 # live preview
-typst watch src/master-thesis/thesis.typ build/thesis.pdf
+typst watch src/master-thesis/thesis.typ build/master-thesis.pdf
 
 # ── Undergraduate Thesis (Tugas Akhir) ──────────────
 make undergraduate
 # or manually
-typst compile src/undergraduate-thesis/thesis.typ build/thesis.pdf
+typst compile src/undergraduate-thesis/thesis.typ build/undergraduate-thesis.pdf
 # live preview
-typst watch src/undergraduate-thesis/thesis.typ build/thesis.pdf
+typst watch src/undergraduate-thesis/thesis.typ build/undergraduate-thesis.pdf
 ```
 
 ---
@@ -119,7 +119,8 @@ thesis project with its own configuration, template, content, and resources.
 │
 ├── samples/                # Sample rendered pages (JPG)
 ├── build/                  # Build output directory
-│   └── thesis.pdf
+│   ├── master-thesis.pdf
+│   └── undergraduate-thesis.pdf
 ├── Makefile                # Build automation
 └── LICENSE
 ```

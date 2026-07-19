@@ -1,3 +1,5 @@
+#import "@preview/icu-datetime:0.2.2" as icu
+
 //=============================================================================
 // ITS Informatics Department Thesis Template (Typst)
 // Template module — contains all structural layout and styling.
@@ -33,6 +35,7 @@
   inside: 3.0cm,
   outside: 2.0cm,
 )
+#let tz = (offset: "+07", iana: "Asia/Jakarta")
 
 //=============================================================================
 // HELPER — centred, bold, uppercase section title
@@ -79,22 +82,29 @@
     ]
   ]
 
-  place(left + top, dx: 3cm, dy: 15cm)[
-    #set text(size: 14pt, weight: "bold")
-    #upper(author) \
+  place(left + top, dx: 3cm, dy: 14cm)[
+    #set text(size: 14pt)
+    #text(weight: "bold")[#upper(author)] \
     #upper(nrp)
   ]
 
-  place(left + top, dx: 3cm, dy: 18cm)[
-    #set text(size: 12pt, weight: "bold")
+  place(left + top, dx: 3cm, dy: 16cm)[
+    #set text(size: 14pt)
     Dosen Pembimbing \
-    #supervisors.at(0).name \
-    #supervisors.at(1).name
+    #text(weight: "bold")[#supervisors.at(0).name] \
+    NIP #supervisors.at(0).nip \
+    #if supervisors.at(1) != none [
+      \
+      Dosen Ko-Pembimbing \
+      #text(weight: "bold")[#supervisors.at(1).name] \
+      NIP #supervisors.at(1).nip
+    ]
   ]
 
-  place(left + top, dx: 3cm, dy: 21cm)[
-    #set text(size: 11pt, weight: "bold")
-    Program Studi #program.concentration\
+  place(left + top, dx: 3cm, dy: 22.5cm)[
+    #set text(size: 14pt, weight: "bold")
+    Program Studi #program.degree #program.concentration \
+    #set text(size: 12pt, weight: "regular")
     #program.department \
     #program.faculty \
     #program.university \
@@ -132,21 +142,28 @@
   ]
 
   place(left + top, dx: 3cm, dy: 15cm)[
-    #set text(size: 14pt, weight: "bold")
-    #upper(author) \
+    #set text(size: 14pt)
+    #text(weight: "bold")[#upper(author)] \
     #upper(nrp)
   ]
   
-  place(left + top, dx: 3cm, dy: 18cm)[
-    #set text(size: 12pt)
+  place(left + top, dx: 3cm, dy: 17cm)[
+    #set text(size: 14pt)
     Dosen Pembimbing \
-    #supervisors.at(0).name \
-    #supervisors.at(1).name
+    #text(weight: "bold")[#supervisors.at(0).name] \
+    NIP #supervisors.at(0).nip \
+    #if supervisors.at(1) != none [
+      \
+      Dosen Ko-Pembimbing \
+      #text(weight: "bold")[#supervisors.at(1).name] \
+      NIP #supervisors.at(1).nip
+    ]
   ]
 
-  place(left + top, dx: 3cm, dy: 22.5cm)[
-    #set text(size: 11pt)
-    Program Studi #program.concentration \
+  place(left + top, dx: 3cm, dy: 23.5cm)[
+    #set text(size: 14pt, weight: "bold")
+    Program Studi #program.degree #program.concentration \
+    #set text(size: 12pt, weight: "regular")
     #program.department \
     #program.faculty \
     #program.university \
@@ -184,21 +201,28 @@
   ]
 
   place(left + top, dx: 3cm, dy: 15cm)[
-    #set text(size: 14pt, weight: "bold")
-    #upper(author) \
+    #set text(size: 14pt)
+    #text(weight: "bold")[#upper(author)] \
     #upper(nrp)
   ]
   
   place(left + top, dx: 3cm, dy: 18cm)[
     #set text(size: 12pt)
     Advisor \
-    #supervisors.at(0).name \
-    #supervisors.at(1).name
+    #text(weight: "bold")[#supervisors.at(0).name] \
+    NIP #supervisors.at(0).nip \
+    #if supervisors.at(1) != none [
+      \
+      Co-Advisor \
+      #text(weight: "bold")[#supervisors.at(1).name] \
+      NIP #supervisors.at(1).nip
+    ]
   ]
 
-  place(left + top, dx: 3cm, dy: 22.5cm)[
-    #set text(size: 11pt)
-    Study Program #program.concentration \
+  place(left + top, dx: 3cm, dy: 23.5cm)[
+    #set text(size: 14pt, weight: "bold")
+    Undergraduate Study Program of #program.concentration \
+    #set text(size: 12pt, weight: "regular")
     #program.department \
     #program.faculty \
     #program.university \
@@ -208,14 +232,14 @@
 }
 
 //=============================================================================
-// PROPOSAL APPROVAL
+// PROPOSAL APPROVAL - ID
 //=============================================================================
 
 #let render-proposal-approval(title, author, nrp, dates, examiners, supervisors) = {
   set text(font: body-font, fill: black, weight: "regular", size: 11pt)
 
+  heading(upper("Lembar Pengesahan"), numbering: none)
   align(center, text(size: 14pt, weight: "bold")[
-    #upper("LEMBAR PENGESAHAN") \
     #upper("PROPOSAL TUGAS AKHIR")
   ])
 
@@ -271,24 +295,24 @@
 }
 
 //=============================================================================
-// THESIS APPROVAL
+// THESIS APPROVAL - ID
 //=============================================================================
 
 #let render-thesis-approval(title, program, author, nrp, sign, dates, supervisors, examiners, chief) = {
   set page(margin: standard-margin)
 
+  heading(upper("Lembar Pengesahan"), numbering: none) 
   align(center)[
     #set text(size: 14pt)
     #set par(leading: 1em)
-    #text(upper("Lembar Pengesahan"), weight: "bold") \
 
     #v(1em)
     #text(upper(title.id), weight: "bold", hyphenate: false) \
     \
     #text(upper("TUGAS AKHIR"), weight: "bold") \
     Diajukan untuk memenuhi salah satu syarat \
-    memperoleh gelar #program.title \
-    pada Program Studi #program.degree #program.concentration \
+    memperoleh gelar #program.title pada \
+    Program Studi #program.degree #program.concentration \
     #program.department \
     #program.faculty \
     #program.university
@@ -306,8 +330,8 @@
     columns: (auto, 2fr, 1fr),
     gutter: 3em,
     align: left,
-    [1.], [#supervisors.at(0).name], [Pembimbing 1],
-    [2.], [#supervisors.at(1).name], [Pembimbing 2],
+    [1.], [#supervisors.at(0).name], [Pembimbing],
+    [2.], [#supervisors.at(1).name], [Ko-pembimbing],
     [3.], [#examiners.at(0).name], [Penguji 1],
     [4.], [#examiners.at(1).name], [Penguji 2],
     [5.], [#examiners.at(2).name], [Penguji 3],
@@ -323,7 +347,59 @@
 }
 
 //=============================================================================
-// ORIGINALITY STATEMENT
+// THESIS APPROVAL - EN
+//=============================================================================
+
+#let render-thesis-approval-en(title, program, author, nrp, sign, dates, supervisors, examiners, chief) = {
+  set page(margin: standard-margin)
+
+  heading(upper("Approval Sheet"), numbering: none)
+  align(center)[
+    #set text(size: 14pt)
+    #set par(leading: 1em)
+
+    #v(1em)
+    #text(upper(title.en), weight: "bold", hyphenate: false) \
+    \
+    #text(upper("FINAL PROJECT"), weight: "bold") \
+    Submitted to fulfill one of the requirements \
+    for obtaining a #program.title degree at \
+    Undergraduate Study Program of #program.concentration \
+    #program.department \
+    #program.faculty \
+    #program.university
+    #v(1em)
+    By: #text(upper(author), weight: "bold") \
+    NRP: #nrp
+
+    #v(1em)
+    Approved by Final Project Examiner Team:
+    #v(1em)
+  ]
+
+  set par(leading: 0.6em)
+  grid(
+    columns: (auto, 2fr, 1fr),
+    gutter: 3em,
+    align: left,
+    [1.], [#supervisors.at(0).name], [Advisor],
+    [2.], [#supervisors.at(1).name], [Co-Advisor],
+    [3.], [#examiners.at(0).name], [Examiner 1],
+    [4.], [#examiners.at(1).name], [Examiner 2],
+    [5.], [#examiners.at(2).name], [Examiner 3],
+  )
+
+  v(1.5em)
+
+  align(center)[
+    #set text(weight: "bold")
+    #upper(program.city) \
+    #dates.writingPeriod
+  ]
+}
+
+//=============================================================================
+// ORIGINALITY STATEMENT - ID
 //=============================================================================
 
 #let render-originality(author, nrp, sign, supervisors, program, title, dates) = {
@@ -335,19 +411,17 @@
   ))
   set text(size: 11pt)
 
-  align(center, text(size: 13pt, weight: "bold")[
-    #upper("PERNYATAAN ORISINALITAS")
-  ])
+  heading(upper("Pernyataan Orisinalitas"), numbering: none)
 
   v(1.5em)
   [Yang bertanda tangan di bawah ini,]
 
   v(0.5em)
   [
-    Nama Mahasiswa (NRP) #tab-to(4.5cm, [Nama Mahasiswa (NRP)]): #author (#nrp) \
-    Program Studi #tab-to(4.5cm, [Program Studi]): #program.concentration \
-    Dosen Pembimbing 1 (NIP) #tab-to(4.5cm, [Dosen Pembimbing 1 (NIP)]): #supervisors.at(0).name (#supervisors.at(0).nip) \
-    Dosen Pembimbing 2 (NIP) #tab-to(4.5cm, [Dosen Pembimbing 2 (NIP)]): #supervisors.at(1).name (#supervisors.at(1).nip) \
+    Nama Mahasiswa / NRP #tab-to(4.6cm, [Nama Mahasiswa / NRP]): #author / #nrp \
+    Program Studi #tab-to(4.6cm, [Program Studi]): #program.degree #program.concentration \
+    Dosen Pembimbing / NIP #tab-to(4.6cm, [Dosen Pembimbing / NIP]): #supervisors.at(0).name / #supervisors.at(0).nip \
+    Dosen Ko-pembimbing / NIP #tab-to(4.6cm, [Dosen Ko-pembimbing / NIP]): #supervisors.at(1).name / #supervisors.at(1).nip \
   ]
 
   v(0.5em)
@@ -372,6 +446,7 @@
       #set align(center)
       #set par(leading: 0.6em)
       #program.city, #dates.writing \
+      Mahasiswa \
       #image(sign, width: 3cm)
       #author \
       NRP: #nrp
@@ -386,12 +461,184 @@
     columns: (1fr, 1fr),
     gutter: 1cm,
     align: center,
-    [#supervisors.at(0).name],
-    [#supervisors.at(1).name],
+    [Dosen Pembimbing],
+    [Dosen Ko-pembimbing],
     [#image(supervisors.at(0).sign, width: 3cm)], [#image(supervisors.at(1).sign, width: 3cm)],
-    [Dosen Pembimbing 1 \ NIP: #supervisors.at(0).nip],
-    [Dosen Pembimbing 2 \ NIP: #supervisors.at(1).nip],
+    [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip],
+    [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip],
   )
+}
+
+//=============================================================================
+// ORIGINALITY STATEMENT - EN
+//=============================================================================
+
+#let render-originality-en(author, nrp, sign, supervisors, program, title, dates) = {
+  set page(margin: (
+    top: 3.0cm,
+    bottom: 2.5cm,
+    left: 3.0cm,
+    right: 2.0cm,
+  ))
+  set text(size: 11pt)
+
+  heading(upper("Statement of Originality"), numbering: none)
+
+  v(1.5em)
+  [The undersigned,]
+
+  v(0.5em)
+  [
+    Student Name / Student ID #tab-to(4.6cm, [Student Name / Student ID]): #author / #nrp \
+    Study Program #tab-to(4.6cm, [Study Program]): #program.degree #program.concentration \
+    Advisor / NIP #tab-to(4.6cm, [Advisor / NIP]): #supervisors.at(0).name / #supervisors.at(0).nip \
+    Co-advisor / NIP #tab-to(4.6cm, [Co-advisor / NIP]): #supervisors.at(1).name / #supervisors.at(1).nip \
+  ]
+
+  v(0.5em)
+  [
+    hereby declares that the Final Project entitled
+    "#title.id" is my own work, is original, and was written in accordance with the rules of scientific writing.
+  ]
+
+  v(0.5em)
+  [
+    If any discrepancies with this statement are found in the future, I am willing to accept sanctions in accordance with the provisions of #program.university (ITS).
+  ]
+
+  v(2em)
+
+  align(center)[
+    #block()[
+      #set text(size: 12pt)
+      #set align(center)
+      #set par(leading: 0.6em)
+      #program.city, #dates.writing \
+      Student \
+      #image(sign, width: 3cm)
+      #author \
+      NRP: #nrp
+    ]
+  ]
+
+  v(1em)
+
+  align(center)[Acknowledged,]
+
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 1cm,
+    align: center,
+    [Advisor],
+    [Co-advisor],
+    [#image(supervisors.at(0).sign, width: 3cm)], [#image(supervisors.at(1).sign, width: 3cm)],
+    [#supervisors.at(0).name \ NIP: #supervisors.at(0).nip],
+    [#supervisors.at(1).name \ NIP: #supervisors.at(1).nip],
+  )
+}
+
+//=============================================================================
+// AI CODE OF CONDUCT STATEMENT - ID
+//=============================================================================
+
+#let render-ai-code-of-conduct(author, nrp, program, title) = {
+set page(margin: (
+  top: 3.0cm,
+  bottom: 2.5cm,
+  left: 3.0cm,
+  right: 2.0cm,
+  ))
+set text(size: 11pt)
+
+align(center, text(size: 14pt)[
+  #set par(leading: 0.6em)
+  #heading("PERNYATAAN KODE ETIK PENGGUNAAN AI GENERATIF", numbering: none)
+  #text(size: 8pt, style: "italic")[Code of Conduct Statement: Generative AI or AI-Assisted Usage]
+])
+
+v(1em)
+
+[Saya yang bertanda tangan di bawah ini: \ ]
+text(size: 8pt, style: "italic")[I, the undersigned:]
+
+v(1em)
+
+table(
+  columns: (5cm, 1fr),
+  stroke: none,
+  align: top,
+  [
+    #set par(leading: 0.6em)
+    Nama Mahasiswa / NRP \ 
+    #text(size: 8pt, style: "italic")[Full Name / Student ID]
+  ],
+  [: #author / #nrp],
+  [
+    #set par(leading: 0.6em)
+    Program Studi \ 
+    #text(size: 8pt, style: "italic")[Study Program]
+  ],
+  [: #program.degree #program.concentration],
+  [
+    #set par(leading: 0.6em)
+    Judul Tugas Akhir \ 
+    #text(size: 8pt, style: "italic")[Final Project Title]
+  ],
+  [: #title.id]
+)
+
+text(size: 12pt)[
+  #set par(leading: 0.6em)
+  Dengan menyatakan bahwa pada Tugas Akhir dengan judul di atas tersebut: \
+  #text(size: 8pt, style: "italic")[Hereby declare that in the Final Project with the above title:]
+]
+
+v(1em)
+
+set text(size: 11pt)
+
+set table(
+  fill: (x, y) =>
+    if y == 0 {
+      gray.lighten(40%)
+    },
+)
+block(
+  table(
+    columns: (1cm, 1fr, 1cm),
+    align: (center, left, center),
+    table.header(
+      [*No.*], [
+        #set align(center)
+        #set par(leading: 0.6em)
+        *Pernyataan* \ 
+        #text(size: 8pt, style: "italic")[Statement]
+      ], [*(✅)*],
+    ),
+    [1.], [Saya menggunakan AI generatif sebagai alat bantu untuk memperbaiki tata bahasa. AI generatif tidak digunakan untuk membuat isi Tugas Akhir. \ #text(size: 8pt, style: "italic")[I only used generative AI as a tool to improve the readability or language of the text in my Final Project. It was not used to generate a complete text of my work.]], [🔲],
+    [2.], [Saya telah memeriksa dan/atau memperbaiki seluruh bagian dari Tugas Akhir saya yang dibantu oleh AI generatif agar sesuai dengan baku mutu penulisan karya ilmiah. \ #text(size: 8pt, style: "italic")[I have reviewed and refined all aspects of my work that generative AI assists with, ensuring it adheres to the standards of academic writing.]], [🔲],
+    [3.], [Saya tidak menggunakan AI generatif untuk pembuatan data primer, grafik dan/atau tabel pada Tugas Akhir saya. \ #text(size: 8pt, style: "italic")[I did not use generative AI to generate primary data, figures, and/or tables in my work.]], [🔲],
+    [4.], [Saya telah memberikan atribusi/pengakuan terhadap alat AI yang digunakan, pada suatu bagian pada lampiran. \ #text(size: 8pt, style: "italic")[I have acknowledged the use of generative AI in any part of the work in the specific appendix page.]], [🔲],
+    [5.], [Saya memastikan tidak ada plagiarisme, termasuk hal yang berasal dari penggunaan AI generatif. \ #text(size: 8pt, style: "italic")[I have ensured that there is no plagiarism issue in the work, including any parts generated by AI.]], [🔲]
+  )
+)
+
+v(1em)
+
+align(right)[
+  #block()[
+    #set text(size: 12pt)
+    #set align(center)
+    #set par(leading: 0.6em)
+    #program.city, #icu.fmt(datetime.today(), locale: "id", zone: tz, date-fields: "YMD") \
+    Mahasiswa \
+    \
+    \
+    \
+    #author \
+    NRP. #nrp
+  ]
+]
 }
 
 //=============================================================================
@@ -444,8 +691,21 @@
         let supp = if el.kind == table { [Tabel] } else { [Gambar] }
         link(loc, it.indented([#supp #h.#f], it.inner()))
       }
-    } else {
+    } else if el != none and el.func() == heading and el.level == 1 {
+      // For BAB chapters only: show "BAB 1. PENDAHULUAN"
+      // Only numbered headings get the BAB prefix; front-matter and appendices use default.
+      context {
+        let is-numbered = el.numbering != none and el.numbering != ""
+        let h = counter(heading.where(level: 1)).at(el.location()).at(0)
+        let prefix = if is-numbered { [BAB #h.] } else { it.prefix() }
+        link(el.location(), it.indented(prefix, it.inner()))
+      }
+    } else if el != none {
       link(el.location(), it.indented(it.prefix(), it.inner()))
+    } else if it.target != none {
+      link(it.target, it.indented([], it.inner()))
+    } else {
+      it.indented([], it.inner())
     }
   }
 
@@ -526,34 +786,52 @@
   pagebreak()
 
   // ---- 5. BLANK PAGE ----
-  set page(margin: standard-margin, background: none, numbering: none)
+  // start numbering from here
+  counter(page).update(1)
+  set page(margin: standard-margin, background: none, numbering: "i")
   set text(fill: black, font: body-font)
-
+  set page(
+    footer: context [
+      #let p = counter(page).get().first()
+      #align(
+        if calc.rem(p, 2) == 1 { right } else { left },
+        text(size: 11pt, font: body-font)[#counter(page).display()]
+      )
+    ]
+  )
 
   if (proposal) {
     // ---- 7. PROPOSAL APPROVAL ----
     render-proposal-approval(title, author, nrp, dates, examiners, supervisors)
+    // Add LEMBAR PENGESAHAN PROPOSAL to TOC as heading with no number
     pagebreak()
   } else {
     // ---- 8. THESIS APPROVAL ----
     render-thesis-approval(title, program, author, nrp, sign, dates, supervisors, examiners, chief)
+    // Add LEMBAR PENGESAHAN to TOC as heading with no number
+    pagebreak()
+    render-thesis-approval-en(title, program-en, author, nrp, sign, dates, supervisors, examiners, chief)
     pagebreak()
 
     // ---- 9. ORIGINALITY STATEMENT ----
     render-originality(author, nrp, sign, supervisors, program, title, dates)
     pagebreak()
+    render-originality-en(author, nrp, sign, supervisors, program-en, title, dates)
+    pagebreak()
+
+    // ---- 10. AI CODE OF CONDUCT ----
+    render-ai-code-of-conduct(author, nrp, program, title)
+    pagebreak()
   }
 
 
-  // ---- 10. Reset to standard settings ----
+  // ---- 11. Reset to standard settings ----
   set page(margin: standard-margin, background: none)
   set text(font: body-font, size: 12pt, fill: black, weight: "regular")
   set par(first-line-indent: (amount: 1.5em, all: true))
 
-  // ---- 11. Roman numbering for preliminary pages ----
-  set page(numbering: "i")
-
-  // ---- 12. User content (dedication, foreword, abstracts,    ----
+  // ---- 12. Roman numbering for preliminary pages ----
+  // ---- 13. User content (dedication, foreword, abstracts,    ----
   //         TOC, chapters, bibliography, appendices, biography).
   doc
 }

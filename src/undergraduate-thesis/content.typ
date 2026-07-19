@@ -49,7 +49,7 @@ Untuk memfokuskan permasalahan di dalam penelitian ini, terdapat beberapa batasa
 
 == Manfaat Penelitian
 
-Manfaat yang diharapkan dari penelitian ini adalah #lorem(70)
+Manfaat yang diharapkan dari penelitian ini adalah #lorem(40)
 
 == Kontribusi Penelitian
 
