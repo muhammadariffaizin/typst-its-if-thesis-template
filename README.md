@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <img alt="Code Name" src="https://img.shields.io/badge/code-ITS--IF--THESIS--TYPST%200.1.0-blue">
+  <img alt="Code Name" src="https://img.shields.io/badge/code-ITS--IF--THESIS--TYPST%200.1.1-blue">
   <img alt="Built With" src="https://img.shields.io/badge/built%20with-Typst-239DAD">
   <img alt="License" src="https://img.shields.io/badge/license-GPLv3.0-green">
 </p>
