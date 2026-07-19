@@ -167,8 +167,9 @@
 #v(1em)
 #par(first-line-indent: 0pt)[
   Nama Mahasiswa / NRP #tab-to(4.4cm, [Nama Mahasiswa / NRP]): #author / #nrp \
-  Pembimbing 1#tab-to(4.4cm, [Pembimbing 1]): #supervisors.at(0).name \
-  Pembimbing 2#tab-to(4.4cm, [Pembimbing 2]): #supervisors.at(1).name
+  Departemen #tab-to(4.4cm, [Departemen]): #program.department \
+  Dosen Pembimbing #tab-to(4.4cm, [Dosen Pembimbing]): #supervisors.at(0).name \
+  Dosen Ko-pembimbing #tab-to(4.4cm, [Dosen Ko-pembimbing]): #supervisors.at(1).name
 ]
 
 #v(2em)
@@ -198,8 +199,9 @@ Tulis abstrak bahasa Indonesia di sini. #lorem(220)
 #v(1em)
 #par(first-line-indent: 0pt)[
   Student Name / NRP #tab-to(4.3cm, [Student Name / NRP]): #author / #nrp \
-  Supervisor 1#tab-to(4.3cm, [Supervisor 1]): #supervisors.at(0).name \
-  Supervisor 2#tab-to(4.3cm, [Supervisor 2]): #supervisors.at(1).name
+  Department #tab-to(4.3cm, [Department]): #program-en.department \
+  Advisor #tab-to(4.3cm, [Advisor]): #supervisors.at(0).name \
+  Co-Advisor #tab-to(4.3cm, [Co-Advisor]): #supervisors.at(1).name
 ]
 
 #v(2em)
