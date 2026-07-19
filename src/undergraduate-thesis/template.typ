@@ -238,8 +238,8 @@
 #let render-proposal-approval(title, author, nrp, dates, examiners, supervisors) = {
   set text(font: body-font, fill: black, weight: "regular", size: 11pt)
 
+  heading(upper("Lembar Pengesahan"), numbering: none)
   align(center, text(size: 14pt, weight: "bold")[
-    #upper("LEMBAR PENGESAHAN") \
     #upper("PROPOSAL TUGAS AKHIR")
   ])
 
@@ -301,10 +301,10 @@
 #let render-thesis-approval(title, program, author, nrp, sign, dates, supervisors, examiners, chief) = {
   set page(margin: standard-margin)
 
+  heading(upper("Lembar Pengesahan"), numbering: none) 
   align(center)[
     #set text(size: 14pt)
     #set par(leading: 1em)
-    #text(upper("Lembar Pengesahan"), weight: "bold") \
 
     #v(1em)
     #text(upper(title.id), weight: "bold", hyphenate: false) \
@@ -353,10 +353,10 @@
 #let render-thesis-approval-en(title, program, author, nrp, sign, dates, supervisors, examiners, chief) = {
   set page(margin: standard-margin)
 
+  heading(upper("Approval Sheet"), numbering: none)
   align(center)[
     #set text(size: 14pt)
     #set par(leading: 1em)
-    #text(upper("Approval Sheet"), weight: "bold") \
 
     #v(1em)
     #text(upper(title.en), weight: "bold", hyphenate: false) \
@@ -411,9 +411,7 @@
   ))
   set text(size: 11pt)
 
-  align(center, text(size: 13pt, weight: "bold")[
-    #upper("PERNYATAAN ORISINALITAS")
-  ])
+  heading(upper("Pernyataan Orisinalitas"), numbering: none)
 
   v(1.5em)
   [Yang bertanda tangan di bawah ini,]
@@ -484,9 +482,7 @@
   ))
   set text(size: 11pt)
 
-  align(center, text(size: 13pt, weight: "bold")[
-    #upper("STATEMENT OF ORIGINALITY")
-  ])
+  heading(upper("Statement of Originality"), numbering: none)
 
   v(1.5em)
   [The undersigned,]
@@ -556,10 +552,7 @@ set text(size: 11pt)
 
 align(center, text(size: 14pt)[
   #set par(leading: 0.6em)
-  #text(weight: "bold")[
-    #upper("PERNYATAAN KODE ETIK") \
-    #upper("PENGGUNAAN AI GENERATIF")
-  ] \
+  #heading("PERNYATAAN KODE ETIK PENGGUNAAN AI GENERATIF", numbering: none)
   #text(size: 8pt, style: "italic")[Code of Conduct Statement: Generative AI or AI-Assisted Usage]
 ])
 
@@ -698,8 +691,21 @@ align(right)[
         let supp = if el.kind == table { [Tabel] } else { [Gambar] }
         link(loc, it.indented([#supp #h.#f], it.inner()))
       }
-    } else {
+    } else if el != none and el.func() == heading and el.level == 1 {
+      // For BAB chapters only: show "BAB 1. PENDAHULUAN"
+      // Only numbered headings get the BAB prefix; front-matter and appendices use default.
+      context {
+        let is-numbered = el.numbering != none and el.numbering != ""
+        let h = counter(heading.where(level: 1)).at(el.location()).at(0)
+        let prefix = if is-numbered { [BAB #h.] } else { it.prefix() }
+        link(el.location(), it.indented(prefix, it.inner()))
+      }
+    } else if el != none {
       link(el.location(), it.indented(it.prefix(), it.inner()))
+    } else if it.target != none {
+      link(it.target, it.indented([], it.inner()))
+    } else {
+      it.indented([], it.inner())
     }
   }
 
@@ -797,10 +803,12 @@ align(right)[
   if (proposal) {
     // ---- 7. PROPOSAL APPROVAL ----
     render-proposal-approval(title, author, nrp, dates, examiners, supervisors)
+    // Add LEMBAR PENGESAHAN PROPOSAL to TOC as heading with no number
     pagebreak()
   } else {
     // ---- 8. THESIS APPROVAL ----
     render-thesis-approval(title, program, author, nrp, sign, dates, supervisors, examiners, chief)
+    // Add LEMBAR PENGESAHAN to TOC as heading with no number
     pagebreak()
     render-thesis-approval-en(title, program-en, author, nrp, sign, dates, supervisors, examiners, chief)
     pagebreak()

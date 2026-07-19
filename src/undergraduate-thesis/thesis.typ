@@ -131,11 +131,12 @@
 #show " & ": " dan "
 
 //=============================================================================
-// 1. DEDICATION
+// 1. HALAMAN PERSEMBAHAN
 //=============================================================================
 
-#align(center, text(size: 13pt, weight: "bold")[#upper("HALAMAN PERSEMBAHAN")])
-#v(1.5em)
+#heading("HALAMAN PERSEMBAHAN", numbering: none)
+
+#v(1em)
 #align(left)[
   Dengan penuh rasa syukur, dengan telah diselesaikannya Tesis ini, Penulis mempersembahkannya kepada: \
   + istriku tercinta, anak-anakku tersayang, dan kedua orang tuaku yang selalu mendukungku dan mendoakanku. 
@@ -150,13 +151,13 @@
 #pagebreak()
 
 //=============================================================================
-// 2. INDONESIAN ABSTRACT  (Abstrak)
+// 2. ABSTRAK
 //=============================================================================
+
+#heading("ABSTRAK", numbering: none)
 
 // Typst 0.13+ doesn't support par(indent: ...)
 // For abstracts, we can leave paragraphs without indent or use #par.leading
-
-#align(center, text(size: 12pt, weight: "bold")[ABSTRAK])
 
 #v(1em)
 #align(center, text(size: 12pt, weight: "bold")[
@@ -184,10 +185,10 @@ Tulis abstrak bahasa Indonesia di sini. #lorem(220)
 #pagebreak()
 
 //=============================================================================
-// 3. ENGLISH ABSTRACT
+// 3. ABSTRACT
 //=============================================================================
 
-#align(center, text(size: 12pt, weight: "bold")[ABSTRACT])
+#heading("ABSTRACT", numbering: none)
 
 #v(1em)
 #align(center, text(size: 12pt, weight: "bold")[
@@ -215,13 +216,13 @@ Write your English abstract here. #lorem(220)
 #pagebreak()
 
 //=============================================================================
-// 4. FOREWORD  (Kata Pengantar)
+// 4. KATA PENGANTAR
 //=============================================================================
+
+#heading("KATA PENGANTAR", numbering: none)
 
 // Typst 0.13+ removed par(indent: ...)
 // Use explicit first-line indentation if needed: #indent[content]
-
-#align(center, text(size: 13pt, weight: "bold")[#upper("KATA PENGANTAR")])
 
 #v(1.5em)
 
@@ -258,11 +259,13 @@ ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
 #pagebreak()
 
 //=============================================================================
-// 5. TABLE OF CONTENTS
+// 5. DAFTAR ISI
 //=============================================================================
 
+#heading("DAFTAR ISI", numbering: none)
+
 #outline(
-  title: [#align(center, text(size: 14pt, weight: "bold")[#upper("DAFTAR ISI")])],
+  title: none,
   indent: auto,
   depth: 3,
 )
@@ -270,22 +273,26 @@ ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
 #pagebreak()
 
 //=============================================================================
-// 6. LIST OF TABLES
+// 6. DAFTAR TABEL
 //=============================================================================
 
+#heading("DAFTAR TABEL", numbering: none)
+
 #outline(
-  title: [#align(center, text(size: 14pt, weight: "bold")[#upper("DAFTAR TABEL")])],
+  title: none,
   target: figure.where(kind: table),
 )
 
 #pagebreak()
 
 //=============================================================================
-// 7. LIST OF FIGURES
+// 7. DAFTAR GAMBAR
 //=============================================================================
 
+#heading("DAFTAR GAMBAR", numbering: none)
+
 #outline(
-  title: [#align(center, text(size: 14pt, weight: "bold")[#upper("DAFTAR GAMBAR")])],
+  title: none,
   target: figure.where(kind: image),
 )
 
@@ -293,13 +300,15 @@ ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
 
 #include "content.typ"
 
+// Ensure back matter uses Arabic page numbering
+#set page(numbering: "1")
+
 //=============================================================================
-// BIBLIOGRAPHY
+// DAFTAR PUSTAKA
 //=============================================================================
 
-#set heading(numbering: none)
+#heading("DAFTAR PUSTAKA", numbering: none)
 
-= DAFTAR PUSTAKA
 #bibliography(
   "bibliography.bib",
   title: none,
@@ -310,16 +319,16 @@ ini dapat memberikan informasi yang bermanfaat bagi para pembaca.
 #pagebreak()
 
 //=============================================================================
-// APPENDICES
+// LAMPIRAN
 //=============================================================================
 
-= Lampiran A. Instrumen Pengujian
+#heading(upper("Lampiran A. Instrumen Pengujian"), numbering: none)
 
 Isi lampiran A di sini ...
 
 #pagebreak()
 
-= Lampiran B. Rincian Kasus Uji
+#heading(upper("Lampiran B. Rincian Kasus Uji"), numbering: none)
 
 #table(
   columns: (auto, auto, auto),
@@ -331,18 +340,17 @@ Isi lampiran A di sini ...
 
 #pagebreak()
 
-= Lampiran C. Penjelasan Hasil
+#heading(upper("Lampiran C. Penjelasan Hasil"), numbering: none)
 
 Isi lampiran C di sini ...
 
 #pagebreak()
 
 //=============================================================================
-// BIOGRAPHY
+// BIOGRAFI PENULIS
 //=============================================================================
 
-#set heading(numbering: none)
-#align(center, text(size: 13pt, weight: "bold")[#upper("BIOGRAFI PENULIS")])
+#heading("BIOGRAFI PENULIS", numbering: none)
 
 #v(1.5em)
 
